@@ -1,0 +1,23 @@
+{
+  "name": "public_wifi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "client": "cd vue2 && yarn serve",
+    "preserver": "npm run swagger-cli bundle ./server/swagger/input.yaml --outfile ./server/swagger/output.yaml --type yaml",
+    "server": "nodemon ./server/app.js",
+    "all": "concurrently \"yarn server\" \"yarn vue2\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "ssh://test@192.168.253.133/home/test/public_wifi"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "concurrently": "^7.2.2",
+    "nodemon": "^2.0.19"
+  }
+}
