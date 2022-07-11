@@ -1,7 +1,7 @@
 openapi: "3.0.0"
 info : 
   title : 공공와이파이 통합관리센터
-  description : 홈 및 관리자페이지 API
+  description : 홈페이지 및 관리자페이지 API
   version : 1.0.0
 servers : 
   - url : localhost:3000

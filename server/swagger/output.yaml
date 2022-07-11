@@ -1,0 +1,217 @@
+openapi: 3.0.0
+info:
+  title: 공공와이파이 통합관리센터
+  description: 홈페이지 및 관리자페이지 API
+  version: 1.0.0
+servers:
+  - url: 'localhost:3000'
+    description: baseURL(서버주소)
+paths:
+  /Api/adminNoticeManager/getNoticeList:
+    get:
+      tags:
+        - 공지사항
+      summary: 공지사항 리스트
+      description: null
+      parameters:
+        - name: search
+          in: query
+          required: true
+          description: 검색 값 - 모든 값 가능
+          schema:
+            type: string
+        - name: field
+          in: query
+          description: 검색 카테고리 - all 또는 title 또는 contents
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              example:
+                result:
+                  - file: '파일 경로, string'
+                    fileName: '파일 이름, string'
+                    title: '제목, string'
+                    date: '등록 시간, string'
+                    seq: '고유번호, integer'
+                    num: '리스트 번호, integer'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+      security:
+        - apiKeyAuth: []
+  /Api/adminNoticeManager/getNoticeDetail:
+    get:
+      tags:
+        - 공지사항
+      summary: 공지사항 상세보기
+      description: null
+      parameters:
+        - name: authorizations
+          in: header
+          required: true
+          description: 토큰 값
+          schema:
+            type: string
+        - name: seq
+          in: query
+          required: true
+          description: 게시물 고유번호
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              example:
+                result:
+                  - file: '파일 경로, string'
+                    fileName: '파일 이름, string'
+                    TITLE: '제목, string'
+                    contents: '내용, string'
+                    date: '등록 시간, string'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+      security:
+        - apiKeyAuth: []
+  /Api/adminNoticeManager/addNoticeform:
+    post:
+      tags:
+        - 공지사항
+      summary: 공지사항 등록
+      description: null
+      parameters:
+        - $ref: '#/components/parameters/file'
+        - name: authorizations
+          in: header
+          required: true
+          description: 토큰 값
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                fileName:
+                  type: string
+                  required: true
+                  description: 첨부파일 이름
+                title:
+                  type: string
+                  required: true
+                  description: 제목
+                contents:
+                  type: string
+                  required: true
+                  description: 내용
+            example:
+              fileName: 파일이름.jpg
+              title: 오늘의 공지사항
+              contents: 오늘도 좋은하루 보내세요
+      responses:
+        '200':
+          $ref: '#/components/responses/complete'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+      security:
+        - apiKeyAuth: []
+  /Api/adminNoticeManager/updateNoticeform:
+    put:
+      tags:
+        - 공지사항
+      summary: 공지사항 업데이트
+      description: null
+      parameters:
+        - name: seq
+          in: query
+          required: true
+          description: 게시물 고유번호
+          schema:
+            type: string
+        - $ref: '#/components/parameters/file'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                fileName:
+                  type: string
+                  required: true
+                  description: 첨부파일 이름
+                title:
+                  type: string
+                  required: true
+                  description: 제목
+                contents:
+                  type: string
+                  required: true
+                  description: 내용
+            example:
+              fileName: 파일이름.jpg
+              title: 오늘의 공지사항
+              contents: 오늘도 좋은하루 보내세요
+      responses:
+        '200':
+          $ref: '#/components/responses/complete'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+      security:
+        - apiKeyAuth: []
+  /Api/adminNoticeManager/deleteNoticeform:
+    delete:
+      tags:
+        - 공지사항
+      summary: 공지사항 삭제
+      description: null
+      parameters:
+        - name: seq
+          in: query
+          required: true
+          description: 게시물 고유번호
+          schema:
+            type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/complete'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+      security:
+        - apiKeyAuth: []
+components:
+  parameters:
+    file:
+      name: file
+      in: formData
+      required: false
+      description: 첨부파일
+      schema:
+        type: file
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      name: authorizations
+      in: header
+      description: 토큰 값
+  responses:
+    complete:
+      description: OK
+      content:
+        application/json:
+          example:
+            result: 200
