@@ -17,14 +17,7 @@
   "license": "ISC",
   "dependencies": {
     "concurrently": "^7.2.2",
-<<<<<<< HEAD
-    "nodemon": "^2.0.19"
-  },
-  "keywords": [],
-  "description": ""
-=======
     "nodemon": "^2.0.19",
     "swagger-cli": "^4.0.4"
   }
->>>>>>> 4d2d15485873ed27efbd93909a84c7e5e3577eea
 }
