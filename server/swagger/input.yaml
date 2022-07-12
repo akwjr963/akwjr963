@@ -29,7 +29,7 @@ components:
       content:
         application/json:
           example: 
-            result: 200
+            result: 201
 
       
   

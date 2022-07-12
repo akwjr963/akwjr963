@@ -1,0 +1,233 @@
+#리스트-------------------------------------
+list:
+  get:
+    tags: 
+      - 문의사항
+    summary: 리스트
+    description:
+    parameters:
+      - name: category
+        in: query
+        required: false
+        description: 검색 카테고리 - title 또는 name
+        schema:
+          type: string
+      - name: word
+        in: query
+        description: 검색어 - 무엇이든 
+        required: false
+        schema:
+          type: string
+      - name: page
+        in: query
+        description: 페이지 번호
+        required: true
+        schema:
+          type: integer
+    responses:
+      '200':
+        description: OK
+        content:
+          application/json:
+            example: 
+              result:
+                - category: 카테고리, string
+                  title: 제목, string
+                  name: 작성자, string
+                  date: 등록 시간, string
+                  seq: 고유번호, integer
+                  num: 리스트 번호, integer
+                  f_exist: 파일 존재 여부, Y/N
+                  complete: 답변 여부, Y/N
+      '400':
+        description: Bad Request
+
+#상세보기-------------------------------------
+detail:
+  post:
+    tags: 
+      - 문의사항
+    summary: 상세보기
+    description:
+    parameters:
+      - in: path
+        name: seq
+        required: true
+        description: 문의사항 고유번호
+        schema:
+          type: integer
+    requestBody:
+      required: true
+      content: 
+        application/json:
+          schema:
+            properties:
+              password:
+                type: string
+                required: true
+                description: 문의 비밀번호
+            example: 
+              password: 비밀번호486
+    responses:
+      '200':
+        description: OK
+        content:
+          application/json:
+            example: 
+              result:
+                - category: 카테고리, string
+                  title: 제목, string
+                  name: 이름, string
+                  location: 지역, string 
+                  tel: 전화번호, string
+                  email: 이메일, string
+                  company: 소속, string
+                  date: 등록시간, string
+                  fileName: 파일이름, string 
+                  filePath: 파일경로, string
+                  contents: 내용, string
+                  reply: 답변, string
+      '400':
+        description: Bad Request
+
+ 
+#등록-------------------------------------
+post:
+  post:
+    tags: 
+      - 문의사항
+    summary: 등록
+    description:
+    parameters:
+      - $ref: '../input.yaml#/components/parameters/file'
+    requestBody:
+      required: true
+      content: 
+        application/json:
+          schema:
+            properties:
+              password:
+                type: string
+                required: true
+              location:
+                type: string
+                required: false
+              name:
+                type: string
+                required: true
+              company:
+                type: string
+                required: true
+              email:
+                type: string
+                required: true
+              tel:
+                type: string
+                required: true
+              fileName:
+                type: string
+                required: false
+              title:
+                type: string
+                required: true
+              contents:
+                type: string
+                required: true  
+            example: 
+              password: 비밀번호, string, 필수
+              location: 지역, string
+              name: 이름, string, 필수
+              company: 소속, string, 필수
+              email: 이메일, string, 필수
+              tel: 전화번호, string, 필수
+              fileName: 파일 이름, string
+              title: 제목, string, 필수
+              contents: 내용, string
+    responses:
+      '200':
+        $ref: '../input.yaml#/components/responses/complete'
+      '400':
+        description: Bad Request
+
+#수정-------------------------------------
+update:
+  put:
+    tags: 
+      - 문의사항
+    summary: 수정
+    description:
+    parameters:
+      - $ref: '../input.yaml#/components/parameters/file'
+    requestBody:
+      required: true
+      content: 
+        application/json:
+          schema:
+            properties:
+              seq:
+                type: integer
+                required: true
+              password:
+                type: string
+                required: true
+              location:
+                type: string
+                required: false
+              name:
+                type: string
+                required: true
+              company:
+                type: string
+                required: true
+              email:
+                type: string
+                required: true
+              tel:
+                type: string
+                required: true
+              fileName:
+                type: string
+                required: false
+              title:
+                type: string
+                required: true
+              contents:
+                type: string
+                required: true
+            example:
+              seq: 고유번호 
+              password: 비밀번호
+              location: 지역
+              name: 이름
+              company: 소속
+              email: 이메일
+              tel: 전화번호
+              fileName: 파일 이름
+              title: 제목
+              contents: 내용
+    responses:
+      '200':
+        $ref: '../input.yaml#/components/responses/complete'
+      '400':
+        description: Bad Request
+
+#삭제-------------------------------------
+delete:
+  delete:
+    tags: 
+      - 문의사항
+    summary: 삭제
+    description:
+    requestBody:
+      required: true
+      content: 
+        application/json:
+          schema:
+            example: 
+              seq: 고유번호, integer, 필수
+              password: 비밀번호, string, 필수
+    responses:
+      '200':
+        $ref: '../input.yaml#/components/responses/complete'
+      '400':
+        description: Bad Request
