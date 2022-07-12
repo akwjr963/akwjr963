@@ -1,15 +1,36 @@
+#문의 리스트
+/client/question:
+  $ref: "./home.yaml#/list"
+#문의 상세
+/client/question/{seq}:
+  $ref: "./home.yaml#/detail"
 #문의 등록
-/Api/adminNoticeManager/addNotice:
-  $ref: "./admin.yaml#/update"
-#문의 조회
-/Api/adminNoticeManager/getNoticeList:
-  $ref: "./admin.yaml#/list"
-#문의 상세보기
-/Api/adminNoticeManager/getNoticeDetail:
-  $ref: "./admin.yaml#/detail"
+/client/question/post:
+  $ref: "./home.yaml#/post"
 #문의 수정
-/Api/adminNoticeManager/addNoticeform:
-  $ref: "./admin.yaml#/add"
+/client/question/update:
+  $ref: "./home.yaml#/update"
 #문의 삭제
-/Api/adminNoticeManager/updateNoticeform:
-  $ref: "./admin.yaml#/update"
+/client/question/delete:
+  $ref: "./home.yaml#/delete"
+
+
+
+#신청서 양식 + 신청서 다운로드
+/download:
+  $ref: "./file.yaml#/form"
+
+
+
+#관리자 문의 리스트
+/admin/question:
+  $ref: "./admin.yaml#/list"
+#관리자 문의 상세보기
+/admin/question/{}:
+  $ref: "./admin.yaml#/detail"
+#관리자 문의 등록,수정
+/admin/question/post:
+  $ref: "./admin.yaml#/post"
+#관리자 삭제
+/admin/question/delete:
+  $ref: "./admin.yaml#/delete"

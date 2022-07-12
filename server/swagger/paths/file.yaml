@@ -1,0 +1,13 @@
+form:
+  get:
+    tags: 
+      - 신청서 
+    summary: 양식 및 신청서
+    description:
+    parameters:
+      - in: query
+        name: file
+        required: false
+        description: value값으로 파일경로, **신청서 양식은 'form'을 value값으로 
+        schema:
+          type: string
