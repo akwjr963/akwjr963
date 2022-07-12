@@ -86,7 +86,7 @@ detail:
                   fileName: 파일이름, string 
                   filePath: 파일경로, string
                   contents: 내용, string
-                  reply: 답변, string
+                  reply: 답변, string 
       '400':
         description: Bad Request
 
@@ -132,7 +132,7 @@ post:
                 required: true
               contents:
                 type: string
-                required: true  
+                required: true
             example: 
               password: 비밀번호, string, 필수
               location: 지역, string
