@@ -1,0 +1,15 @@
+#문의 등록
+/Api/adminNoticeManager/addNotice:
+  $ref: "./admin.yaml#/update"
+#문의 조회
+/Api/adminNoticeManager/getNoticeList:
+  $ref: "./admin.yaml#/list"
+#문의 상세보기
+/Api/adminNoticeManager/getNoticeDetail:
+  $ref: "./admin.yaml#/detail"
+#문의 수정
+/Api/adminNoticeManager/addNoticeform:
+  $ref: "./admin.yaml#/add"
+#문의 삭제
+/Api/adminNoticeManager/updateNoticeform:
+  $ref: "./admin.yaml#/update"
