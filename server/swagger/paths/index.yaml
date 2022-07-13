@@ -20,6 +20,10 @@
 /download:
   $ref: "./file.yaml#/form"
 
+#주소 토글 받아오기 
+/address:
+  $ref: "./file.yaml#/location"
+
 
 
 #관리자 문의 리스트

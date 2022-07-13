@@ -11,3 +11,32 @@ form:
         description: value값으로 파일경로, **신청서 양식은 'form'을 value값으로 
         schema:
           type: string
+
+location:
+  get:
+    tags:
+    - 지역선택
+    summary: 주소 받아오기
+    description:
+    parameters:
+      - in: query
+        name: location1
+        description: 시/도를 보내주시면 시/군/구 리스트로 응답
+        schema:
+          type: string
+      - in: query
+        name: location2
+        description: 시/군/구를 보내주시면 상세주소 리스트로 응답
+        schema:
+          type: string
+    responses:
+      '200':
+        description: OK, result라는 객체에 배열이 담김
+        content:
+          application/json:
+            example: 
+              result_case_location1: [강남구, 강동구, 강서구, 동대문구, 용산구, 종로구, '...']
+              result_case_location2: [(원효로1가 28-68) 용산꿈나무종합타운.원효로우체국(03-141) , 갈월동 100-5 남영역(03-130), 보광로 73 한국폴리텍1대학(03-281), '...']
+      '400':
+        description: Bad Request
+
