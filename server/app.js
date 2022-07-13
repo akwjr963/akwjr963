@@ -1,5 +1,8 @@
 const express = require('express');
 const app = express();
+
+require('dotenv').config({path : "./server/.env"})
+
 const QA_client = require("./routes/QA_client")
 const QA_admin = require("./routes/QA_admin")
 
@@ -7,6 +10,10 @@ const swaggerUi = require('swagger-ui-express')
 const YAML = require('yamljs')
 const swaggerDocument = YAML.load('./server/swagger/output.yaml')
 
+const bodyParser = require("body-parser")
+
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extends: true }))
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 app.use('/client', QA_client)
 app.use('/admin', QA_admin)
