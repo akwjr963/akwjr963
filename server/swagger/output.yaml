@@ -252,7 +252,6 @@ paths:
       parameters:
         - in: query
           name: location1
-          required: true
           description: 시/도를 보내주시면 시/군/구 리스트로 응답
           schema:
             type: string
