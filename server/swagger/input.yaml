@@ -4,7 +4,7 @@ info :
   description : 홈페이지 및 관리자페이지 API
   version : 1.0.0
 servers : 
-  - url : localhost:3000
+  - url : http://localhost:3000
     description: baseURL(서버주소)
 paths:
   $ref: "./paths/index.yaml"
