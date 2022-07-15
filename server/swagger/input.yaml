@@ -1,0 +1,35 @@
+openapi: "3.0.0"
+info : 
+  title : 공공와이파이 통합관리센터
+  description : 홈페이지 및 관리자페이지 API
+  version : 1.0.0
+servers : 
+  - url : http://localhost:3000
+    description: baseURL(서버주소)
+paths:
+  $ref: "./paths/index.yaml"
+components:
+  parameters:
+      file:
+        name : file
+        in: formData
+        required: false
+        description : 첨부파일
+        schema : 
+          type: file
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      name: authorizations
+      in: header
+      description: 토큰 값
+  responses:
+    complete:
+      description: OK
+      content:
+        application/json:
+          example: 
+            result: 201
+
+      
+  

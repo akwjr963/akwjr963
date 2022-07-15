@@ -1,0 +1,464 @@
+openapi: 3.0.0
+info:
+  title: 공공와이파이 통합관리센터
+  description: 홈페이지 및 관리자페이지 API
+  version: 1.0.0
+servers:
+  - url: 'http://localhost:3000'
+    description: baseURL(서버주소)
+paths:
+  /client/question:
+    get:
+      tags:
+        - 문의사항
+      summary: 리스트
+      description: null
+      parameters:
+        - name: category
+          in: query
+          required: false
+          description: 검색 카테고리 - title 또는 name
+          schema:
+            type: string
+        - name: word
+          in: query
+          description: 검색어 - 무엇이든
+          required: false
+          schema:
+            type: string
+        - name: page
+          in: query
+          description: 페이지 번호
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              example:
+                result:
+                  - category: '카테고리, string'
+                    title: '제목, string'
+                    name: '작성자, string'
+                    date: '등록 시간, string'
+                    seq: '고유번호, integer'
+                    num: '리스트 번호, integer'
+                    f_exist: '파일 존재 여부, Y/N'
+                    complete: '답변 여부, Y/N'
+        '400':
+          description: Bad Request
+  '/client/question/{seq}':
+    post:
+      tags:
+        - 문의사항
+      summary: 상세보기
+      description: null
+      parameters:
+        - in: path
+          name: seq
+          required: true
+          description: 문의사항 고유번호
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                password:
+                  type: string
+                  required: true
+                  description: 문의 비밀번호
+              example:
+                password: 비밀번호486
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              example:
+                result:
+                  - category: '카테고리, string'
+                    title: '제목, string'
+                    name: '이름, string'
+                    location: '지역, string'
+                    tel: '전화번호, string'
+                    email: '이메일, string'
+                    company: '소속, string'
+                    date: '등록시간, string'
+                    fileName: '파일이름, string'
+                    filePath: '파일경로, string'
+                    contents: '내용, string'
+                    reply: '답변, string'
+        '400':
+          description: Bad Request
+  /client/question/post:
+    post:
+      tags:
+        - 문의사항
+      summary: 등록
+      description: null
+      parameters:
+        - $ref: '#/components/parameters/file'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                password:
+                  type: string
+                  required: true
+                location:
+                  type: string
+                  required: false
+                name:
+                  type: string
+                  required: true
+                company:
+                  type: string
+                  required: true
+                email:
+                  type: string
+                  required: true
+                tel:
+                  type: string
+                  required: true
+                fileName:
+                  type: string
+                  required: false
+                title:
+                  type: string
+                  required: true
+                contents:
+                  type: string
+                  required: true
+              example:
+                password: '비밀번호, string, 필수'
+                location: '지역, string'
+                name: '이름, string, 필수'
+                company: '소속, string, 필수'
+                email: '이메일, string, 필수'
+                tel: '전화번호, string, 필수'
+                fileName: '파일 이름, string'
+                title: '제목, string, 필수'
+                contents: '내용, string'
+      responses:
+        '200':
+          $ref: '#/components/responses/complete'
+        '400':
+          description: Bad Request
+  /client/question/update:
+    put:
+      tags:
+        - 문의사항
+      summary: 수정
+      description: null
+      parameters:
+        - $ref: '#/components/parameters/file'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                seq:
+                  type: integer
+                  required: true
+                password:
+                  type: string
+                  required: true
+                location:
+                  type: string
+                  required: false
+                name:
+                  type: string
+                  required: true
+                company:
+                  type: string
+                  required: true
+                email:
+                  type: string
+                  required: true
+                tel:
+                  type: string
+                  required: true
+                fileName:
+                  type: string
+                  required: false
+                title:
+                  type: string
+                  required: true
+                contents:
+                  type: string
+                  required: true
+              example:
+                seq: 고유번호
+                password: 비밀번호
+                location: 지역
+                name: 이름
+                company: 소속
+                email: 이메일
+                tel: 전화번호
+                fileName: 파일 이름
+                title: 제목
+                contents: 내용
+      responses:
+        '200':
+          $ref: '#/components/responses/complete'
+        '400':
+          description: Bad Request
+  /client/question/delete:
+    delete:
+      tags:
+        - 문의사항
+      summary: 삭제
+      description: null
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              example:
+                seq: '고유번호, integer, 필수'
+                password: '비밀번호, string, 필수'
+      responses:
+        '200':
+          $ref: '#/components/responses/complete'
+        '400':
+          description: Bad Request
+  /download:
+    get:
+      tags:
+        - 신청서
+      summary: 양식 및 신청서
+      description: null
+      parameters:
+        - in: query
+          name: file
+          required: false
+          description: 'value값으로 파일경로, **신청서 양식은 ''form''을 value값으로'
+          schema:
+            type: string
+  /address:
+    get:
+      tags:
+        - 지역선택
+      summary: 주소 받아오기
+      description: null
+      parameters:
+        - in: query
+          name: location1
+          description: 시/도를 보내주시면 시/군/구 리스트로 응답
+          schema:
+            type: string
+        - in: query
+          name: location2
+          description: 시/군/구를 보내주시면 상세주소 리스트로 응답
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'OK, result라는 객체에 배열이 담김'
+          content:
+            application/json:
+              example:
+                result_case_location1:
+                  - 강남구
+                  - 강동구
+                  - 강서구
+                  - 동대문구
+                  - 용산구
+                  - 종로구
+                  - ...
+                result_case_location2:
+                  - (원효로1가 28-68) 용산꿈나무종합타운.원효로우체국(03-141)
+                  - 갈월동 100-5 남영역(03-130)
+                  - 보광로 73 한국폴리텍1대학(03-281)
+                  - ...
+        '400':
+          description: Bad Request
+  /admin/question:
+    get:
+      tags:
+        - 관리자
+      summary: 문의사항 리스트
+      description: null
+      parameters:
+        - name: category
+          in: query
+          required: false
+          description: 검색 카테고리 - title 또는 name
+          schema:
+            type: string
+        - name: word
+          in: query
+          description: 검색어 - 무엇이든
+          required: false
+          schema:
+            type: string
+        - name: page
+          in: query
+          description: 페이지 번호
+          required: true
+          schema:
+            type: integer
+        - name: authorizations
+          in: header
+          required: true
+          description: 토큰 값
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              example:
+                result:
+                  - category: '카테고리, string'
+                    company: '소속, string'
+                    title: '제목, string'
+                    name: '작성자, string'
+                    date: '등록 시간, string'
+                    seq: '고유번호, integer'
+                    num: '리스트 번호, integer'
+                    f_exist: '파일 존재 여부, Y/N'
+                    complete: '답변 여부, Y/N'
+        '400':
+          description: Bad Request
+      security:
+        - apiKeyAuth: []
+  '/admin/question/{}':
+    post:
+      tags:
+        - 관리자
+      summary: 문의사항 상세보기
+      description: null
+      parameters:
+        - in: path
+          name: seq
+          required: true
+          description: 문의사항 고유번호
+          schema:
+            type: integer
+        - name: authorizations
+          in: header
+          required: true
+          description: 토큰 값
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              example:
+                result:
+                  - category: '카테고리, string'
+                    title: '제목, string'
+                    name: '이름, string'
+                    location: '지역, string'
+                    tel: '전화번호, string'
+                    company: '소속, string'
+                    email: '이메일, string'
+                    date: '등록시간, string'
+                    fileName: '파일이름, string'
+                    filePath: '파일경로, string'
+                    contents: '내용, string'
+                    reply: '답변, string'
+        '400':
+          description: Bad Request
+      security:
+        - apiKeyAuth: []
+  /admin/question/post:
+    post:
+      tags:
+        - 관리자
+      summary: 문의사항 답변 등록/수정
+      description: null
+      parameters:
+        - name: authorizations
+          in: header
+          required: true
+          description: 토큰 값
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                seq:
+                  type: integer
+                  required: true
+                contents:
+                  type: string
+                  required: false
+              example:
+                seq: '고유번호, integer, 필수'
+                contents: '답변 내용, string'
+      responses:
+        '200':
+          $ref: '#/components/responses/complete'
+        '400':
+          description: Bad Request
+      security:
+        - apiKeyAuth: []
+  /admin/question/delete:
+    delete:
+      tags:
+        - 관리자
+      summary: 문의사항 삭제
+      description: null
+      parameters:
+        - name: authorizations
+          in: header
+          required: true
+          description: 토큰 값
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                seq:
+                  type: integer
+                  required: true
+              example:
+                seq: '고유번호, integer, 필수'
+      responses:
+        '200':
+          $ref: '#/components/responses/complete'
+        '400':
+          description: Bad Request
+      security:
+        - apiKeyAuth: []
+components:
+  parameters:
+    file:
+      name: file
+      in: formData
+      required: false
+      description: 첨부파일
+      schema:
+        type: file
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      name: authorizations
+      in: header
+      description: 토큰 값
+  responses:
+    complete:
+      description: OK
+      content:
+        application/json:
+          example:
+            result: 201
