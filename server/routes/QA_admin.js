@@ -9,12 +9,39 @@ router.get("/question?category=?&word=?", async (req, res) => {
 
 //관리자 문의 상세
 router.get("/question/:seq", async (req, res) => {
-    console.log('여기')
-    // const { seq } = req.params
-    // const {date, complete, name, location, company, tel, email, title, contents, fileName, filePath, reply } = DB.find({})
-    const a = await DB.query('SELECT * FROM TBL_NIA_QA')
-    console.log(a)
+    const { seq } = req.params 
+    
+    const [list] = await DB.query(`SELECT * FROM TBL_NIA_QA where seq = ${seq}`)
+    
 
+
+    res.status(200).json({
+        success:"agagag",
+        result : list,
+    })
+    
+
+})
+
+//관리자 댓글 추가
+router.post("/question/:seq/reply", (req,res) => {
+    const { seq } = req.params
+    const { comment } = req.body
+    DB.query(`insert into TBL_NIA_REPLY values(${null}, ${seq}, "${comment}", ${null})`)
+    DB.query(`update TBL_NIA_QA set QA_COMPLETE = 'Y' where seq = '${seq}'`)
+    res.status(201).json({
+        success: " good "
+    })
+    
+})
+
+//관리자 댓글 수정
+router.put("/question/:seq/post", (req,res) => {
+    const { seq } = req.params
+    const { comment } = req.body
+    DB.query(`update from TBL_NIA_REPLY
+            set REPLY_CONTENT = "${comment}"
+            where QA_SEQ = ${seq}`)
 })
 
 
