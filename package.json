@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "client": "cd vue2 && yarn serve",
+    "client": "cd nia_vue && npm run serve",
     "preserver": "swagger-cli bundle ./server/swagger/input.yaml --outfile ./server/swagger/output.yaml --type yaml",
     "server": "nodemon ./server/app.js",
-    "all": "concurrently \"yarn server\" \"yarn vue2\"",
+    "all": "concurrently \"npm run client\" \"npm run server\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
