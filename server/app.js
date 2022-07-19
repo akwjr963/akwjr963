@@ -10,7 +10,9 @@ const swaggerUi = require('swagger-ui-express')
 const YAML = require('yamljs')
 const swaggerDocument = YAML.load('./server/swagger/output.yaml')
 
+app.use(express.static("./download_File"))
 const bodyParser = require("body-parser")
+
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extends: true }))
