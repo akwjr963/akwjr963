@@ -6,6 +6,9 @@ const secretkey = 'ganggang'
 const algorithm = 'aes-256-cbc'
 const key = "12345678901234567890123456789012"
 const iv = "1234567812345678"
+const multer = require("multer")
+const fs = require("fs")
+const iconv = require("iconv-lite")
 
 //암호화
 const cipherCode = (text)  => {
@@ -24,12 +27,65 @@ textDecode += decipher.final('utf8')
 return textDecode
 }
 
+//파일업로드
+//fs.readdirSync('server/download_File')
+
+// try {
+// 	fs.readdirSync('server/download_File'); // 폴더 확인
+// } catch(err) {
+// 	console.error('uploads 폴더가 없습니다. 폴더를 생성합니다.');
+//     fs.mkdirSync('server/download_File'); // 폴더 생성
+// }
+
+ 
+const upload = multer({
+    storage: multer.diskStorage({ // 저장한공간 정보 : 하드디스크에 저장
+        destination(req, file, done) { // 저장 위치
+            done(null, 'server/assets/attach_qa_ap/'); // uploads라는 폴더 안에 저장
+        },
+        filename(req, file, done) { // 파일명을 어떤 이름으로 올릴지
+            done(null, Date.now() + "--" + file.originalname); // 파일이름 + 날짜 + 확장자 이름으로 저장
+        }
+    }),
+    //limits: { fileSize: 5 * 1024 * 1024 } // 5메가로 용량 제한
+});
+
+// var storage = multer.diskStorage({
+//     destination: function (req, file, cb) {
+//       cb(null, 'server/download_File') //경로 지정 콜백함수
+//     },
+//     filename: function (req, file, cb) {
+//       cb(null, file.originalname + '-' + Date.now()) //파일명 지정 콜백함수
+//     }
+//   })
+//   var upload = multer({ storage: storage });
 
 
+// const upload = multer({
+//     storage: multer.diskStorage({
+//         destination(req, file, done) {
+//             done(null,"server/download_File/")
+//         },
+//         filename(req, file, done) {
+//             const ext = path.extname(file.originalname)
+//             done(null, Date.now() + path.basename(file.originalname, ext) + ext)
+//         }
+//     })
+// })
 
+//문의 조회하기
+router.get("/question", async (req, res) => {
+    let sql = `select SEQ, QA_CATEGORY, QA_TITLE, QA_FILE_EXIST, QA_NAME, QA_REG_DATE, QA_COMPLETE
+                FROM TBL_NIA_QA WHERE QA_DEL_YN = "N" `
+    const [all_list] = await DB.query(sql)
+
+    res.status(200).send({
+        all: all_list
+    })
+})
 
 //검색하기
-router.get("/question",async (req, res) => {
+router.get("/question/search",async (req, res) => {
     const { category, word } = { category: 1, word: '문의문의' }
     console.log(category, word)
     let sql = ``
@@ -70,7 +126,8 @@ router.post("/question/:seq", async (req, res) => {
 
         res.status(200).json({
             success: "문의 상세보기 성공!",
-            result: details
+            result: details,
+            seq: details[0].SEQ
     
     })
         }else {//패스워드가 올바르지 않은 경우
@@ -82,9 +139,12 @@ router.post("/question/:seq", async (req, res) => {
 
 })                             
 //문의 등록하기
-router.post("/question/server/post", async (req, res) => {
+router.post("/question/server/post",upload.array('file'), async (req, res) => {
     const { category, password, location, company, email, name, tel, fileEx ,file, fileName, title, contents, replyEx} = req.body
-    console.log(password)
+    console.log("여기오나"+password)
+    // console.log("파일업로드시ㅣ작")
+    // console.log(req.files)
+    // console.log("파일업로드")
     let passwordCode = cipherCode(password)
     console.log(passwordCode)
         let seq = ''
@@ -111,25 +171,36 @@ router.post("/question/server/post", async (req, res) => {
         
         //첨부파일 O
         if (fileEx == 'Y') {
-
+            
             let sql_file = `insert into TBL_NIA_QA_FILE
-            (QA_SEQ,QA_FILE_NAME,QA_FILE_PATH)
-            values(?,?,?)`
+            values(?,?,?,?)`
 
-            const list_file = [seq,fileName,file]
-            const tempPath = Date.now()+'_'+ fileName
-            const filePath = `./server/assets/attach_qa_ap/${tempPath}`
-            req.upload(`./server/assets${filePath}`) // check!!!!!!
-
-            await DB.query(sql_file,list_file)
-
-            res.status(201).send({
+            // para = [{originalname:"heelo",destination:"server/routererererere"}, //임시객체배열 (req.files)
+            // {originalname:"ㅎㅁㅎㄴㅇㄻ",destination:"server/aklsdmw"},
+            // {originalname:"뱅뱅",destination:"server/kkfdsaf"}]
+            para = req.files
+            console.log(req.files)
+            var hel = iconv.decode(para[0].originalname,"utf-8")
+            console.log(hel.toString())
+            //var fi = fs.readFileSync(req.files)
+            //console.log(fi)
+            //console.log(para[0].originalname)
+            for (i=0;i<para.length;i++){
+             const list_file = [null,seq,iconv.decode(para[i].originalname,"utf-8"),para[i].destination]
+             await DB.query(sql_file,list_file)
+            }
+           
+            // const tempPath = Date.now()+'_'+ fileName
+            // const filePath = `./server/assets/attach_qa_ap/${tempPath}`
+            // req.upload(`./server/assets${filePath}`) // check!!!!!
+            
+            res.status(200).send({
                 success: "success file post!!"
             })
             
         // 첨부파일 X    
         }else { 
-            res.status(201).json({
+            res.status(200).json({
                 newPost: "Success post! and no file"
             })
         }
@@ -140,8 +211,6 @@ router.post("/question/server/post", async (req, res) => {
 router.put("/question/update/:seq", async (req, res) => {
     const { seq } = req.params
     const data = req.body
-    
-    console.log(req.files)
     if (true) { //req.files != null
     const [existData] = await DB.query(`select *
                                          from TBL_NIA_QA as a left join TBL_NIA_QA_FILE as b
@@ -149,7 +218,7 @@ router.put("/question/update/:seq", async (req, res) => {
                                          where a.seq = '${seq}'`)
     
     const sql = `update TBL_NIA_QA
-                 set QA_LOCATION = ?, QA_COMPANY = ?, QA_NAME = ?, QA_EMAIL = ?, QA_TEL = ?, QA_TITLE = ?, QA_CONTENTS = ?
+                set QA_LOCATION = ?, QA_COMPANY = ?, QA_NAME = ?, QA_EMAIL = ?, QA_TEL = ?, QA_TITLE = ?, QA_CONTENTS = ?
                 where seq = '${seq}' `
 
     const list_update = [data.location, data.company, data.name, data.email, data.tel, data.title, data.contents]
@@ -189,6 +258,6 @@ router.delete("/question/update/:seq/delete", async (req, res) => {
 router.get("/download", async (req, res) => {  
     res.download('./server/download_File/ap_철거이전.jpg')
 })
-
+//유저 첨부파일 다운로드
 
 module.exports = router
