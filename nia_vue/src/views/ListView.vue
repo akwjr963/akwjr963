@@ -83,7 +83,7 @@
 </div>
 </template>
 <script>
-import axios from 'axios'
+import http from '@/api/http'
 
 export default{
   name:"app",
@@ -93,8 +93,8 @@ export default{
     }
   },
   created() {
-    axios
-        .get("http://localhost:3000/client/question")
+    http
+        .get("client/question")
         .then(response=>{
             console.log(response);
         })
