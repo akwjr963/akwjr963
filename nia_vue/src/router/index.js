@@ -65,6 +65,18 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "about" */ "../components/Modal.vue"),
   },
+  {
+    path: "/accordion",
+    name: "Accordion",
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../components/Accordion.vue"),
+  },
+  {
+    path: "/accordion_item",
+    name: "Accordion_Item",
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../components/Accordion_Item.vue"),
+  },
 ];
 
 const router = new VueRouter({

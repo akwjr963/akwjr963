@@ -1,46 +1,39 @@
 <template>
   <!-- 컴포넌트를 감싸는부모-->
-  <div class="modal-page">
+  <div class="modal-page" @click="$emit('close-modal')">
     <!--"컴포넌트 영역과 같은 크기를 가진 배경-->
     <div class="overlay-page" @click="$emit('close-modal')"></div>
     <!--내용이 보이는 영역-->
-    <transition name="fade">
-      <div class="modal-card" v-if="Show">
-        <div class="introduction-box">
-          <h2>Introduction</h2>
-          <router-link to="/process">
-            <p>처리 프로세스</p>
-          </router-link>
-          <router-link to="/deleteAP">
-            <p>AP 철거/이전</p>
-          </router-link>
-        </div>
-        <div class="Community-box">
-          <h2>Community</h2>
-          <router-link to="faq">
-            <p>자주하는 질문</p>
-          </router-link>
-          <router-link to="complain">
-            <p>장애 신고</p>
-          </router-link>
-          <router-link to="question">
-            <p>조회하기</p>
-          </router-link>
-          <router-link to="secret">
-            <p>문의하기</p>
-          </router-link>
-        </div>
+    <div class="modal-card">
+      <div class="introduction-box">
+        <h2>Introduction</h2>
+        <router-link to="/process">
+          <p>처리 프로세스</p>
+        </router-link>
+        <router-link to="/deleteAP">
+          <p>AP 철거/이전</p>
+        </router-link>
       </div>
-    </transition>
+      <div class="Community-box">
+        <h2>Community</h2>
+        <router-link to="faq">
+          <p>자주하는 질문</p>
+        </router-link>
+        <router-link to="complain">
+          <p>장애 신고</p>
+        </router-link>
+        <router-link to="secret">
+          <p>조회하기</p>
+        </router-link>
+        <router-link to="question">
+          <p>문의하기</p>
+        </router-link>
+      </div>
+    </div>
   </div>
 </template>
 <script>
-export default {
-  name: "modal-page",
-  data:{
-    Show: true,
-  }
-};
+export default {};
 </script>
 <style scoped>
 .overlay-page,
@@ -59,6 +52,7 @@ export default {
 }
 .overlay-page {
   margin-top: -400px;
+  transition: all 1s;
 }
 .modal-card {
   position: relative;
@@ -91,5 +85,6 @@ p {
   width: 150px;
   height: 30px;
   margin: auto;
+  margin-bottom: 15px;
 }
 </style>

@@ -1,6 +1,8 @@
 <template>
 <div class="header-space">
-    <Modal v-if="isActive" @close-modal="isActive = false"></Modal>
+    <transition name="fade">
+      <Modal v-if="isActive" @close-modal="isActive = false"></Modal>
+    </transition>
     <router-link to="/">
         <span class="logo-place">
         </span>
@@ -53,6 +55,13 @@ export default{
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+}
+.fade-enter-active,
+.fade-leave-active{
+  transition: opacity .7s;
+}
+.fade-enter, .fade-leave-to{
+  opacity: 0;
 }
 .logo-place{
     background-image: url("../assets/images/logo_o.png");

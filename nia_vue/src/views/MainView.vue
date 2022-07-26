@@ -1,6 +1,8 @@
 <template>
   <div class="hello">
-    <Modal v-if="isActive" @close-modal="isActive = false"></Modal>
+    <transition name="fade">
+      <Modal v-if="isActive" @close-modal="isActive = false"></Modal>
+    </transition>
     <div class="head">
       <span>
         <img
@@ -122,6 +124,13 @@ nav {
   margin-left: auto;
   align-content: right;
   justify-content: flex-end;
+}
+.fade-enter-active,
+.fade-leave-active{
+  transition: opacity .7s;
+}
+.fade-enter, .fade-leave-to{
+  opacity: 0;
 }
 .buttonbox {
   display: flex;

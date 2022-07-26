@@ -6,12 +6,21 @@
     <div class="MainHeader">
       <div class="MainMemo">자주하는 질문</div>
     </div>
-    <div class="accordion"></div>
+    <div class="accordion">
+     <Accordion />
+    </div>
   </div>
 </template>
 <script>
+import Accordion from "../components/Accordion.vue";
+
 export default {
-  name: "app",
+    name: "app",
+    data() {
+    },
+    components: { 
+      Accordion,
+     }
 };
 </script>
 <style scoped>
@@ -45,5 +54,15 @@ export default {
   font-size: 25px;
   font-weight: bolder;
   margin: 20px 0;
+}
+.accordion{
+  display: flex;
+  max-width: 1200px;
+  margin: 20px auto;
+  line-height: 24px;
+}
+a {
+  display: block;
+  cursor: pointer;
 }
 </style>

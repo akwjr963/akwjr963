@@ -1,19 +1,40 @@
 <template>
   <div id="app">
-    <Header v-if="$route.name !== 'home'" />
+    <Header v-if="HeaderShow" />
     <router-view />
-    <Footer v-if="$route.name !== 'home'" />
+    <Footer v-if="FooterShow" />
   </div>
 </template>
 <script>
 import Header from "./components/Header.vue";
 import Footer from "./components/Footer.vue";
+import { mapState, mapMutations } from 'vuex';
 export default {
   name: "app",
   components: {
     Header,
     Footer,
   },
+  computed:{
+    ...mapState([
+      "HeaderShow",
+      "FooterShow"
+    ])
+  },
+  beforeMount() {
+    this.HeaderSee(),
+    this.FooterSee();
+  },
+  beforeUnmount() {
+    this.HeaderSee(),
+    this.FooterSee();
+  },
+  methods:{
+    ...mapMutations([
+      "HeaderSee",
+      "FooterSee"
+    ])
+  }
 };
 
 </script>

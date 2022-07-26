@@ -81,6 +81,17 @@
 import Footer from "../components/Footer.vue";
 export default {
   name: "app",
+  data() {
+    return {
+      
+    }
+  },
+  created() {
+    
+  },
+  methods: {
+    
+  },
 };
 </script>
 <style scoped>

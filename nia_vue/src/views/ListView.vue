@@ -32,14 +32,14 @@
             <tr>
                 <td>7</td>
                 <td>NIA 공공와이파이 철거 문의 드립니다.</td>
-                <td><font-awesome-icon icon="fa-solid fa-files" /></td>
+                <td></td>
                 <td>홍길동</td>
                 <td>2021.07.12</td>
             </tr>
             <tr>
                 <td>6</td>
                 <td>NIA 공공와이파이 철거 문의 드립니다.</td>
-                <td><font-awesome-icon icon="fa-solid fa-files" /></td>
+                <td></td>
                 <td>홍길동</td>
                 <td>2021.07.12</td>
             </tr>
@@ -53,7 +53,7 @@
             <tr>
                 <td>4</td>
                 <td>NIA 공공와이파이 철거 문의 드립니다.</td>
-                <td><font-awesome-icon icon="fa-solid fa-files" /></td>
+                <td></td>
                 <td>홍길동</td>
                 <td>2021.07.12</td>
             </tr>
@@ -67,7 +67,7 @@
             <tr>
                 <td>2</td>
                 <td>NIA 공공와이파이 철거 문의 드립니다.</td>
-                <td><font-awesome-icon icon="fa-solid fa-files" /></td>
+                <td></td>
                 <td>홍길동</td>
                 <td>2021.07.12</td>
             </tr>
@@ -83,8 +83,28 @@
 </div>
 </template>
 <script>
+import axios from 'axios'
+
 export default{
   name:"app",
+   data() {
+    return {
+      list:[]
+    }
+  },
+  created() {
+    axios
+        .get("http://localhost:3000/client/question")
+        .then(response=>{
+            console.log(response);
+        })
+        .catch(error=>{
+            console.log(error);
+        });
+  },
+  methods: {
+    
+  },
 }
 </script>
 <style scoped>

@@ -15,13 +15,18 @@
       <span class="text-header"> AP 철거/이전 문의 </span>
       <div class="main-bar"></div>
       <span class="text-header">AP 검색</span>
-      <span class="select-space"
-        ><select v-model="onePick">
-          <option v-for="City in CityList" :value="City.value" key="value">
-            {{ City.text }}
+      <!--시도 선택, 시군구 선택-->
+      <!--backend와 연동예정, vue만으로는 v-for, v-if로 구문제어-->
+      <span class="select-space">
+        <select class="city-list" @click="ItemChange()">
+          <option key="i" :value="d.v" v-for="(d,i) in options">{{d.t}}
           </option>
-        </select></span
-      >
+        </select>
+        <select class="office-list">
+          <option key="i" :value="d.v" v-for="(d,i) in busan">{{d.t}}
+          </option>
+        </select>
+      </span>
       <span class="text-header">소속</span>
       <input type="text" />
       <span class="text-header">이메일</span>
@@ -54,55 +59,85 @@
   </div>
 </template>
 <script>
+import { showMenuApi } from '@/api';
+
 export default {
   name: "app",
-  data() {
+  data(){
     return {
-      CityList: [
-        {
-          text: "시도 선택",
-          value: "0",
-        },
-        {
-          text: "서울",
-          value: "1",
-        },
-        {
-          text: "부산",
-          value: "2",
-        },
-        {
-          text: "인천",
-          value: "3",
-        },
-        {
-          text: "대구",
-          value: "4",
-        },
-        {
-          text: "대전",
-          value: "5",
-        },
-        {
-          text: "광주",
-          value: "6",
-        },
-        {
-          text: "울산",
-          value: "7",
-        },
-        {
-          text: "세종",
-          value: "8",
-        },
-        {
-          text: "제주",
-          value: "9",
-        },
+      options: [
+        {v:"none", t:"시도 선택"},
+        {v:"se", t:"서울"},
+        {v:"bu", t:"부산"},
+        {v:"in", t:"인천"},
       ],
-      onePick: "0",
-    };
+      seoul:[
+        {v:"none", t:"시군구 선택"},
+        {v:"yongsan", t:"용산구"},
+        {v:"gwanak", t:"관악구"},
+        {v:"guro", t:"구로구"},
+        {v:"seocho", t:"서초구"},
+        {v:"gangseo", t:"강서구"},
+        {v:"yangcheon", t:"양천구"},
+        {v:"geumcheon",t:"금천구"},
+        {v:"dongjak",t:"동작구"},
+        {v:"yeongdeungpo",t:"영등포구"},
+        {v:"mapo",t:"마포구"},
+        {v:"seodaemun",t:"서대문구"},
+        {v:"eunpyeong",t:"은평구"},
+        {v:"jongno",t:"종로구"},
+        {v:"jung",t:"중구"},
+        {v:"gangnam",t:"강남구"},
+        {v:"songpa",t:"송파구"},
+        {v:"gangdong",t:"강동구"},
+        {v:"gwangjin",t:"광진구"},
+        {v:"seongdong",t:"성동구"},
+        {v:"donddaemun",t:"동대문구"},
+        {v:"jungnang",t:"중랑구"},
+        {v:"seongbuk",t:"성북구"},
+        {v:"gangbuk",t:"강북구"},
+        {v:"dobong",t:"도봉구"},
+        {v:"nowon",t:"노원구"}
+      ],
+      busan:[
+        {v:"none", t:"시군구 선택"},
+        {v:"sasang", t:"사상구"},
+        {v:"saha", t:"사하구"},
+        {v:"buk", t:"북구"},
+        {v:"nam", t:"남구"},
+        {v:"dong", t:"동구"},
+        {v:"jung", t:"중구"},
+        {v:"yungdo", t:"영도구"},
+        {v:"gangseo", t:"강서구"},
+        {v:"busanjin", t:"부산진구"},
+        {v:"gijang",t:"기장군"},
+        {v:"suyeong",t:"수영구"},
+        {v:"gumjung", t:"금정구"},
+        {v:"donglae",t:"동래구"},
+        {v:"yeonjae",t:"연제구"},
+        {v:"seo",t:"서구"},
+        {v:"haeundae",t:"해운대구"}
+      ]
+    }
   },
+  methods:{
+      ItemChange(){
+        if(options.v === "se")
+          office = seoul;
+        else if(options.v === "bu")
+          office = busan;
+      },
+      getData:function(){
+        axios.get('../../server/swagger/paths/file.yaml')
+        .then(function(response){
+          console.log(response.data);
+        })
+        .catch(function(error){
+          console.log(error);
+        });
+      }
+    },
+    created(){}
 };
 </script>
 <style scoped>
@@ -190,6 +225,7 @@ button {
 }
 .bottom-button {
   text-align: right;
+  margin-bottom:40px;
 }
 select {
   width: 130px;
