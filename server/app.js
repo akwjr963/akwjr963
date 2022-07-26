@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const cors = require("cors")
 
 require('dotenv').config({path : "./server/.env"})
 
@@ -19,6 +20,7 @@ app.use(bodyParser.urlencoded({ extends: true }))
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 app.use('/client', QA_client)
 app.use('/admin', QA_admin)
+app.use(cors())
 
 app.listen(3000, () => {
     console.log('3000포트로 서버가 켜졌습니다.')
