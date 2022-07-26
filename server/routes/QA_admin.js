@@ -11,10 +11,10 @@ const iv = "1234567812345678"
 //관리자 문의 조회
 router.get("/question", async (req, res) => {
 
-    const [allData] = await DB.query(`select seq, QA_TITLE, QA_NAME, QA_FILE_EXIST, QA_REG_DATE
+    const [allData] = await DB.query(`select seq, QA_CATEGORY, QA_TITLE, QA_NAME, QA_FILE_EXIST, QA_REG_DATE, QA_COMPLETE
             from TBL_NIA_QA where QA_DEL_YN = "N" `)
-    const {seq, QA_title, QA_name, QA_file_exist, QA_REG_date} = allData[0]
-    console.log(seq, QA_title, QA_name, QA_file_exist, QA_REG_date)
+    const {seq, QA_CATEGORY, QA_title, QA_name, QA_file_exist, QA_REG_date, QA_COMPLETE } = allData[0]
+    console.log(seq, QA_CATEGORY, QA_title, QA_name, QA_file_exist, QA_REG_date, QA_COMPLETE)
     res.status(200).json({
         results: allData
     })
@@ -29,8 +29,6 @@ router.get("/question/:seq", async (req, res) => {
     const [list] = await DB.query(`SELECT * FROM TBL_NIA_QA a left join TBL_NIA_QA_FILE b on a.seq = b.qa_seq
                                     left join TBL_NIA_REPLY c on a.seq = c.qa_seq where a.seq = ${seq}`)
     
-
-
 
 
     res.status(200).json({
@@ -48,7 +46,7 @@ router.post("/question/:seq/reply", async (req,res) => {
     await DB.query(`insert into TBL_NIA_REPLY values(${null}, ${seq}, "${comment}", ${null})`)
     await DB.query(`update TBL_NIA_QA set QA_COMPLETE = 'Y' where seq = '${seq}'`)
     res.status(201).json({
-        success: " good "
+        success: " good admin reply "
     })
     
 })
@@ -73,6 +71,9 @@ router.delete("/question/:seq/reply_delete", async(req,res) => {
     console.log(comment)
     await DB.query(`delete from TBL_NIA_REPLY
             where QA_SEQ = ${seq}`)
+    await DB.query(`update tbl_nia_qa
+                    set QA_COMPLETE = 'N' `)
+            
     res.status(200).json({
         success: "success reply_delete!"
     })
