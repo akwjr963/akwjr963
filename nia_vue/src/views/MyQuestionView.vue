@@ -23,45 +23,52 @@
           </option>
         </select>
         <select class="office-list">
-          <option key="i" :value="d.v" v-for="(d,i) in busan">{{d.t}}
+          <option key="i" :value="d.v" v-for="(d,i) in seoul">{{d.t}}
           </option>
         </select>
       </span>
       <span class="text-header">소속</span>
-      <input type="text" />
+      <input type="text" v-model="category"/>
       <span class="text-header">이메일</span>
-      <input type="text" />
+      <input type="text" v-model="email"/>
       <span class="text-header">이름</span>
-      <input type="text" />
+      <input type="text" v-model="name"/>
       <span class="text-header">연락처</span>
-      <input type="text" />
+      <input type="text" v-model="tel"/>
       <span class="text-header">파일첨부</span>
-      <input
-        type="text"
-        placeholder="파일을 드래그하여 첨부하실 수 있습니다."
-        readonly
-      />
+      <!--<div v-if="!file">
+        <div :class="['dropZone',dragging ? 'dropZone-over' : '']" @dragenter="dragging = true" @gragleave="dragging = false">
+          <div class="dropZone">
+          <span class="dropZone-title">파일을 드래그하여 첨부하실 수 있습니다.</span>
+          </div>
+        </div>
+      </div>-->
       <span class="add-file">
         <button class="addfile-button">파일첨부</button>
       </span>
       <span class="text-header">제목</span>
-      <input type="text" />
+      <input type="text" v-model="title"/>
       <span class="text-header">내용</span>
-      <textarea></textarea>
+      <textarea v-model="contents"></textarea>
       <span class="text-header">비밀번호</span>
-      <input type="password" />
+      <input type="password" v-model="password"/>
+      <span class="text-header">test</span>
+      <input type="text" v-model="complete"/>
       <div class="main-bar"></div>
       <span class="bottom-button">
         <button class="cancle-button">취소</button>
-        <button class="online-button">온라인 문의</button>
+        <button class="online-button" @click="onSubmit">온라인 문의</button>
       </span>
     </div>
   </div>
 </template>
 <script>
-import { showMenuApi } from '@/api';
+import http from '@/api/http'
+
+
 
 export default {
+
   name: "app",
   data(){
     return {
@@ -117,7 +124,18 @@ export default {
         {v:"yeonjae",t:"연제구"},
         {v:"seo",t:"서구"},
         {v:"haeundae",t:"해운대구"}
-      ]
+      ],
+      category: '',
+      password: '',
+      location: '',
+      company: '',
+      email: '',
+      name: '',
+      tel: '',
+      title: '',
+      contents: '',
+      fileEX: '',
+      complete: '',
     }
   },
   methods:{
@@ -127,17 +145,30 @@ export default {
         else if(options.v === "bu")
           office = busan;
       },
-      getData:function(){
-        axios.get('../../server/swagger/paths/file.yaml')
-        .then(function(response){
-          console.log(response.data);
-        })
-        .catch(function(error){
-          console.log(error);
-        });
+      onSubmit(){
+        const formData = {
+          'category': this.category,
+          'password': this.password,
+          'location': this.location,
+          'company': this.company,
+          'email': this.email,
+          'name': this.name,
+          'tel': this.tel,
+          'title': this.title,
+          'contents': this.contents,
+          'flieEX': this.fileEX,
+          'complete': this.complete
+        }
+        console.log(formData)
+
+        http.post('client/question/server/post',formData)
+        .then(res => console.log(res))
+        .catch(error => console.log(error))
       }
+      
     },
-    created(){}
+    created(){},
+    
 };
 </script>
 <style scoped>
@@ -249,5 +280,27 @@ select {
   background-color: #4d8fe9;
   color: #ffffff;
   font-size: 15px;
+}
+.file-upload{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  border: transparent;
+  border-radius: 20px;
+  cursor: pointer;
+}
+.file-upload.dragged{
+  border:1px dashed powderblue;
+  opacity: .6;
+}
+.file-upload-container{
+  text-align: left;
+  font-weight: bolder;
+  margin-top: 20px;
+  margin-bottom: 5px;
+}.file-upload-input{
+  display: none;
 }
 </style>

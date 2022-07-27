@@ -12,8 +12,8 @@
     </div>
     <div class="table-space">
         <table class="list-table">
-            <caption>
-                총 7건
+            <caption  v-for="data in list" :key="data">
+                총 {{data.SEQ}}건
             </caption>
             <colgroup>
                 <col width="6%" />
@@ -29,54 +29,27 @@
                 <th>작성자</th>
                 <th>작성일</th>
             </tr>
-            <tr>
-                <td>7</td>
-                <td>NIA 공공와이파이 철거 문의 드립니다.</td>
-                <td></td>
-                <td>홍길동</td>
-                <td>2021.07.12</td>
-            </tr>
-            <tr>
-                <td>6</td>
-                <td>NIA 공공와이파이 철거 문의 드립니다.</td>
-                <td></td>
-                <td>홍길동</td>
-                <td>2021.07.12</td>
-            </tr>
-            <tr>
-                <td>5</td>
-                <td>NIA 공공와이파이 철거 문의 드립니다.</td>
-                <td></td>
-                <td>홍길동</td>
-                <td>2021.07.12</td>
-            </tr>
-            <tr>
-                <td>4</td>
-                <td>NIA 공공와이파이 철거 문의 드립니다.</td>
-                <td></td>
-                <td>홍길동</td>
-                <td>2021.07.12</td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>NIA 공공와이파이 철거 문의 드립니다.</td>
-                <td></td>
-                <td>홍길동</td>
-                <td>2021.07.12</td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>NIA 공공와이파이 철거 문의 드립니다.</td>
-                <td></td>
-                <td>홍길동</td>
-                <td>2021.07.12</td>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td><router-link to="search">NIA 공공와이파이 철거 문의 드립니다.</router-link></td>
-                <td></td>
-                <td>홍길동</td>
-                <td>2021.07.12</td>
+            <tr v-for="data in list" :key="data">
+            <td>
+                {{data.SEQ}}
+            </td>
+            <td>
+                <router-link to="search">
+                {{data.QA_TITLE}}
+                </router-link>
+            </td>
+            <td v-if="data.QA_FILE_EXIST === 'Y'">
+                <font-awesome-icon icon="fa-solid fa-copy" />
+            </td>
+            <td v-else>
+                {{data.QA_FILE_EXIST}}
+            </td>
+            <td>
+                {{data.QA_NAME}}
+            </td>
+            <td>
+                {{data.QA_REG_DATE.slice(0,10)}}
+            </td>
             </tr>
         </table>
     </div>
@@ -97,6 +70,7 @@ export default{
         .get("client/question")
         .then(response=>{
             console.log(response);
+            this.list = response.data.all;
         })
         .catch(error=>{
             console.log(error);

@@ -22,7 +22,7 @@
   </div>
 </template>
 <script>
-import { showMenuApi } from '@/api';
+
 export default {
   name: "app",
   created(){
