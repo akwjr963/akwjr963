@@ -153,7 +153,7 @@ router.post("/question/server/post",upload.array('file'), async (req, res) => {
                         QA_CONTENTS,QA_PASSWORD,QA_FILE_EXIST,QA_COMPLETE)
                     values(?,?,?,?,?,?,?,?,?,?,?)`
 
-        const list = [category, location, company, name, email, tel, title, contents, passwordCode, fileEx, replyEx]
+        const list = [category, location, company, name, email, tel, title, contents, passwordCode, "N", "N"]
 
         // const [a, b] = await DB.query(sql,list, (err, result,field) => {
         //     console.log(err)
