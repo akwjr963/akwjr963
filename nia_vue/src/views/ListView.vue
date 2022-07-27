@@ -12,8 +12,8 @@
     </div>
     <div class="table-space">
         <table class="list-table">
-            <caption  v-for="data in list" :key="data">
-                총 {{data.SEQ}}건
+            <caption>
+                총 {{list.length}}건
             </caption>
             <colgroup>
                 <col width="6%" />
@@ -42,7 +42,7 @@
                 <font-awesome-icon icon="fa-solid fa-copy" />
             </td>
             <td v-else>
-                {{data.QA_FILE_EXIST}}
+                
             </td>
             <td>
                 {{data.QA_NAME}}
