@@ -36,13 +36,20 @@
       <span class="text-header">연락처</span>
       <input type="text" v-model="tel"/>
       <span class="text-header">파일첨부</span>
-      <!--<div v-if="!file">
+      <div v-if="!file">
         <div :class="['dropZone',dragging ? 'dropZone-over' : '']" @dragenter="dragging = true" @gragleave="dragging = false">
-          <div class="dropZone">
+          <div class="dropZone-info" @drag="onChange">
           <span class="dropZone-title">파일을 드래그하여 첨부하실 수 있습니다.</span>
           </div>
+          <input type="file" @change="onChange" />
         </div>
-      </div>-->
+      </div>
+      <div v-else class="dropZone-uploaded">
+        <div class="dropZone-uploaded-info">
+        <span class="dropZone-title">Uploaded</span>
+        <button type="button" class="delete-file" @click="removeFile">Remove File</button>
+    </div>
+  </div>
       <span class="add-file">
         <button class="addfile-button">파일첨부</button>
       </span>
@@ -281,26 +288,40 @@ select {
   color: #ffffff;
   font-size: 15px;
 }
-.file-upload{
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.dropZone{
+  width: 800px;
+  height: 100px;
+  position: relative;
+  border: 1px solid lightgray;
+  border-radius: 4px;
+}
+.dropZone:hover .dropZone-title{
+  color:#4d8fe9;
+}
+.dropZone-info{
+  color: #A8A8A8;
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  transform: translate(0, -50%);
+  text-align: center;
+}
+.dropZone input{
+  position: absolute;
+  cursor: pointer;
+  top: 0px;
+  right: 0;
+  bottom: 0;
+  left: 0;
   width: 100%;
   height: 100%;
-  border: transparent;
-  border-radius: 20px;
-  cursor: pointer;
+  opacity: 0;
 }
-.file-upload.dragged{
-  border:1px dashed powderblue;
-  opacity: .6;
-}
-.file-upload-container{
-  text-align: left;
-  font-weight: bolder;
-  margin-top: 20px;
-  margin-bottom: 5px;
-}.file-upload-input{
-  display: none;
+.dropZone-uploaded{
+  width: 800px;
+  height: 100px;
+  position: relative;
+  border: 1px solid lightgray;
+  border-radius: 4px;
 }
 </style>
