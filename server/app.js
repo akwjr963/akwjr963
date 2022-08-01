@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const cors = require('cors')
+const cors = require("cors")
 
 require('dotenv').config({path : "./server/.env"})
 
@@ -13,7 +13,7 @@ const swaggerDocument = YAML.load('./server/swagger/output.yaml')
 
 app.use(express.static("./download_File"))
 const bodyParser = require("body-parser")
-app.use(cors())
+
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extends: true }))
