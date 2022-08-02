@@ -50,7 +50,7 @@
                 {{data.QA_NAME}}
             </td>
             <td>
-                {{data.QA_REG_DATE.slice(0,10)}}
+                {{data.QA_REG_DATE.slice(0,9)}}
             </td>
             </tr>
         </table>

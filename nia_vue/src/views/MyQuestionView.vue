@@ -51,6 +51,7 @@
       <input type="password" v-model="password"/>
       <span class="text-header">test</span>
       <input type="text" v-model="complete"/>
+      <div><h4>{{file}}</h4></div>
       <div class="main-bar"></div>
       <span class="bottom-button">
         <button class="cancle-button">취소</button>
@@ -128,9 +129,7 @@ export default {
       tel: '',
       title: '',
       contents: '',
-      fileEX: '',
       complete: '',
-      file:'',
     }
   },
   methods:{
@@ -151,13 +150,13 @@ export default {
           'tel': this.tel,
           'title': this.title,
           'contents': this.contents,
-          'flieEX': this.fileEX,
+          'flie': this.file,
           'complete': this.complete
         }
         console.log(formData)
         api.PostQuestionList(formData)
         .then(res => console.log(res))
-          location.reload()
+          // location.reload()
         .catch(error => console.log(error))
       },
       ButtonClickMethod(){
@@ -167,11 +166,10 @@ export default {
         let files = event.target.files
         if(!files) return;
         ([...files]).forEach(f => {
-            this.files.push(f)
+            this.file.push(f)
         })
       }
     },
-    created(){},
 };
 </script>
 <style scoped>

@@ -52,7 +52,7 @@ export default {
         //error 발생 시 알람창 생성 후 초기화
         alert('비밀번호를 다시 입력하세요')
         // router.go()
-        consloe.log(e)
+        console.log(e)
       })
     }
   }
