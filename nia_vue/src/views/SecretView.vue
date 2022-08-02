@@ -41,7 +41,7 @@ export default {
         console.log(res)
         //search page 이동할때 parameter 전달
         router.push({
-          name:`Search`,  
+          name: "Search",
           params: {
             seq: this.seq,
             userPassword: this.password

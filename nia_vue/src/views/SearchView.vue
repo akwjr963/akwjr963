@@ -93,7 +93,7 @@ export default {
   methods: {
     GetClientQuestion(){
       api.GetClientQuestion(this.ListSeq, this.password).then((res) => {
-        this.listArray = res.data.all;
+        this.listArray = res.data.result;
         let list = this.listArray;
         console.log(list)
       })
