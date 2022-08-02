@@ -42,13 +42,13 @@ const routes = [
       import(/* webpackChunkName: "about" */ "../views/MyQuestionView.vue"),
   },
   {
-    path: "/search",
+    path: "/search/:seq",
     name: "Search",
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/SearchView.vue"),
   },
   {
-    path: "/secret",
+    path: "/secret/:seq",
     name: "Secret",
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/SecretView.vue"),

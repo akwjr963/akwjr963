@@ -12,21 +12,49 @@
       <p>본인이라면 비밀번호를 입력하세요.</p>
       <form>
         비밀번호
-        <input class="password" type="password" />
-        <router-link to="list"
-          ><button class="confirm">확인</button></router-link
-        >
+        <input class="password" type="password" v-model="password" />
+        <button class="confirm" @click="listcheck()">확인</button>
       </form>
     </div>
     <router-link to="/"><button class="return">돌아가기</button></router-link>
   </div>
 </template>
 <script>
-
+import * as api from '@/api/api';
+import router from '@/router';
 export default {
   name: "app",
+  data() {
+    return {
+      password: ''
+    }
+  },
   created(){
-    
+    //list page에서 받아온 seq 값
+    this.seq = this.$route.params.seq;
+  },
+  methods:{
+    listcheck(){
+      //view 페이지로 route
+      api.GetClientQuestion(this.seq, this.password)
+      .then((res) => {
+        console.log(res)
+        //search page 이동할때 parameter 전달
+        router.push({
+          name:`Search`,  
+          params: {
+            seq: this.seq,
+            password: this.password
+          }
+        })
+      })
+      .catch((e) => {
+        //error 발생 시 알람창 생성 후 초기화
+        alert('비밀번호를 다시 입력하세요')
+        // router.go()
+        consloe.log(e)
+      })
+    }
   }
 };
 </script>
