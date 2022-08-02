@@ -28,7 +28,7 @@
         </select>
       </span>
       <span class="text-header">소속</span>
-      <input type="text" v-model="category"/>
+      <input type="text" v-model="company"/>
       <span class="text-header">이메일</span>
       <input type="text" v-model="email"/>
       <span class="text-header">이름</span>
@@ -37,9 +37,10 @@
       <input type="text" v-model="tel"/>
       <span class="text-header">파일첨부</span>
       <span class="add-file">
-        <button id="file-add-button" @click.prevent="ButtonClickMethod">파일첨부</button>
-        <input type="file" style="display:none"
-        ref="fileadd"
+        <button id="file-add-button" @click.prevent="ButtonClickMethod" name="file">파일첨부</button>
+        <input type="file" style="display:none" 
+        name="file"
+        ref="file"
         @change="datainputmethod"
         multiple>
       </span>
@@ -140,6 +141,7 @@ export default {
           office = busan;
       },
       onSubmit(){
+        
         const formData = {
           'category': this.category,
           'password': this.password,
@@ -150,17 +152,21 @@ export default {
           'tel': this.tel,
           'title': this.title,
           'contents': this.contents,
-          'flie': this.file,
           'complete': this.complete
         }
-        console.log(formData)
-        api.PostQuestionList(formData)
+        let fData = new FormData();
+        this.file.forEach((f) => {
+                fData.append('file', f)
+                fData.append('body', formData)
+            });
+        console.log(fData)
+        api.PostQuestionList(fData)
         .then(res => console.log(res))
           // location.reload()
         .catch(error => console.log(error))
       },
       ButtonClickMethod(){
-        this.$refs.fileadd.click();
+        this.$refs.file.click();
       },
       datainputmethod(event){
         let files = event.target.files

@@ -1,0 +1,13 @@
+
+- SQL async-await 
+
+https://millo-l.github.io/Nodejs-mysql%EC%9D%84-async-awiat%EB%A1%9C-%EC%B2%98%EB%A6%AC%ED%95%98%EA%B8%B0/
+
+- SQL 프레젠테이션
+
+https://docs.google.com/presentation/d/15cWjFI-dRZyeISdpd_ZaWpGuKQZ22CSq/edit#slide=id.p14
+
+- NIA 기존 사이트
+
+https://nia.withnetworks.com/Maincontroller2
+https://nia.withnetworks.com/admin2

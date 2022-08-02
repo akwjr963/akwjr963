@@ -150,8 +150,9 @@ router.post("/question/:seq", async (req, res) => {
 })                             
 //문의 등록하기
 router.post("/question/server/post",upload.array('file'), async (req, res) => {
-    const { category, password, location, company, email, name, tel, fileEx ,file, fileName, title, contents, replyEx} = req.body
-    console.log("여기오나"+password)
+    const { category, password, location, company, email, name, tel, fileEx , fileName, title, contents, replyEx} = req.body.body
+    console.log(JSON.stringify(req.body))
+    console.log("여기오나")
     // console.log("파일업로드시ㅣ작")
     // console.log(req.files)
     // console.log("파일업로드")
@@ -200,7 +201,8 @@ router.post("/question/server/post",upload.array('file'), async (req, res) => {
             // req.upload(`./server/assets${filePath}`) // check!!!!!
             
             res.status(200).send({
-                success: "success file post!!"
+                
+                success: req.files
             })
             
         // 첨부파일 X    
