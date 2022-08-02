@@ -76,8 +76,15 @@ const upload = multer({
 //문의 조회하기
 router.get("/question", async (req, res) => {
     let sql = `select SEQ, QA_CATEGORY, QA_TITLE, QA_FILE_EXIST, QA_NAME, QA_REG_DATE, QA_COMPLETE
-                FROM TBL_NIA_QA WHERE QA_DEL_YN = "N" `
+                FROM TBL_NIA_QA WHERE QA_DEL_YN = "N" 
+                ORDER BY SEQ DESC`
     const [all_list] = await DB.query(sql)
+    let rowNum = all_list.length
+    all_list.map(i => {
+        i.NUM = rowNum
+        rowNum--
+        i.QA_REG_DATE = i.QA_REG_DATE.toLocaleString('ja-JP')
+    })
 
     res.status(200).send({
         all: all_list

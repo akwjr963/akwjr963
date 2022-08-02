@@ -14,13 +14,13 @@ const swaggerDocument = YAML.load('./server/swagger/output.yaml')
 app.use(express.static("./download_File"))
 const bodyParser = require("body-parser")
 
-
+app.use(cors())
 app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extends: true }))
+app.use(bodyParser.urlencoded({ extends: false }))
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 app.use('/client', QA_client)
 app.use('/admin', QA_admin)
-app.use(cors())
+
 
 app.listen(3000, () => {
     console.log('3000포트로 서버가 켜졌습니다.')
