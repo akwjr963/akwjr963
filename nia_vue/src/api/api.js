@@ -10,7 +10,11 @@ import http from './http';
 export async function PostQuestionList(formData){
     try {
         console.log('/client/question/server/post');
-        return http.post('/client/question/server/post',formData);
+        return http.post('/client/question/server/post',formData , {
+            headers: {
+                "Content-Type": "multipart/form-data"
+            }
+        });
     }
     catch(err){
         return err;

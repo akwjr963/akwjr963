@@ -16,7 +16,7 @@
         </colgroup>
         <tr>
           <td class="table-header">등록일</td>
-          <td>{{data.QA_REG_DATE.slice(0,9)}}</td>
+          <td>{{data.QA_REG_DATE.slice(0,10)}}</td>
           <td class="table-header">처리상태</td>
           <td>답변 대기중</td>
         </tr>
