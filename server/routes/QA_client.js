@@ -180,7 +180,7 @@ router.post("/question/server/post",upload.array('file'), async (req, res) => {
         
         
         //첨부파일 O
-        if (fileEx == 'Y') {
+        if (req.files) {
             
             let sql_file = `insert into TBL_NIA_QA_FILE
             values(?,?,?,?)`
