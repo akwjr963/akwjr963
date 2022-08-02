@@ -53,7 +53,7 @@
         </tr>
         <tr class="table-bottom">
           <td class="table-header">첨부파일</td>
-          <td class="flex">abcdef.png abcdefg.xlsx</td>
+          <td class="flex">{{data.QA_FILE}}</td>
           <td></td>
           <td></td>
         </tr>
