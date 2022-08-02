@@ -22,7 +22,7 @@ export async function GetClientQuestion(seq, password){
     try{
         const params = {seq, password}
         console.log(params)
-        return http.get(`/question/${seq}`, params);
+        return http.post(`client/question/seq=${seq}`, params);
     }
     catch(err){
         return err;

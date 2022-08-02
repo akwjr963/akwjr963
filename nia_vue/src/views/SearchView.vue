@@ -85,6 +85,7 @@ export default {
   },
   created() {
     //seq, password created
+    console.log(this.$route.params)
     this.ListSeq = this.$route.params.seq;
     this.password = this.$route.params.password
     this.GetClientQuestion();
@@ -92,7 +93,7 @@ export default {
   methods: {
     GetClientQuestion(){
       api.GetClientQuestion(this.ListSeq, this.password).then((res) => {
-        this.listArray = res.data.result;
+        this.listArray = res.data.all;
         let list = this.listArray;
         console.log(list)
       })
