@@ -150,12 +150,8 @@ router.post("/question/:seq", async (req, res) => {
 })                             
 //문의 등록하기
 router.post("/question/server/post",upload.array('file'), async (req, res) => {
-    const { category, password, location, company, email, name, tel, fileEx , fileName, title, contents, replyEx} = req.body.body
-    console.log(JSON.stringify(req.body))
-    console.log("여기오나")
-    // console.log("파일업로드시ㅣ작")
-    // console.log(req.files)
-    // console.log("파일업로드")
+    const { category, password, location, company, email, name, tel, fileEx , fileName, title, contents, replyEx} = req.body
+    
     let passwordCode = cipherCode(password)
     console.log(passwordCode)
         let seq = ''
@@ -182,17 +178,16 @@ router.post("/question/server/post",upload.array('file'), async (req, res) => {
         
         //첨부파일 O
         if (req.files) {
-            
+            console.log(req.files)
             let sql_file = `insert into TBL_NIA_QA_FILE
             values(?,?,?,?)`
 
 
             para = req.files
-            console.log("파일이름: "+req.files[0].filename)
             //var hel = iconv.decode(para[0].originalname,"utf-8")
     
             for (i=0;i<para.length;i++){
-             const list_file = [null,seq,iconv.decode(para[i].originalname,"utf-8"),para[i].destination]
+             const list_file = [null,seq,iconv.decode(para[i].originalname,"utf-8"), "/attach_qa_ap/"+para[i].filename]
              await DB.query(sql_file,list_file)
             }
            
@@ -202,7 +197,7 @@ router.post("/question/server/post",upload.array('file'), async (req, res) => {
             
             res.status(200).send({
                 
-                success: req.files
+                success: '됐음'
             })
             
         // 첨부파일 X    

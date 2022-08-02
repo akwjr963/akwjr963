@@ -141,25 +141,34 @@ export default {
           office = busan;
       },
       onSubmit(){
-        
-        const formData = {
-          'category': this.category,
-          'password': this.password,
-          'location': this.location,
-          'company': this.company,
-          'email': this.email,
-          'name': this.name,
-          'tel': this.tel,
-          'title': this.title,
-          'contents': this.contents,
-          'complete': this.complete
-        }
+        // const formData = {
+        //   'category': this.category,
+        //   'password': this.password,
+        //   'location': this.location,
+        //   'company': this.company,
+        //   'email': this.email,
+        //   'name': this.name,
+        //   'tel': this.tel,
+        //   'title': this.title,
+        //   'contents': this.contents,
+        //   'complete': this.complete
+        // }
         let fData = new FormData();
         this.file.forEach((f) => {
-                fData.append('file', f)
-                fData.append('body', formData)
+              fData.append('file', f)
             });
-        console.log(fData)
+        fData.append('category', this.category)
+        fData.append('password', this.password)
+        fData.append('location', this.location)
+        fData.append('company', this.company)
+        fData.append('email', this.email)
+        fData.append('name', this.name)
+        fData.append('tel', this.tel)
+        fData.append('title', this.title,)
+        fData.append('contents', this.contents,)
+        fData.append('complete', this.complete)
+
+
         api.PostQuestionList(fData)
         .then(res => console.log(res))
           // location.reload()
