@@ -117,8 +117,10 @@ router.post("/question/:seq", async (req, res) => {
     const [details] = await DB.query(`select * 
     from TBL_NIA_QA as a left join TBL_NIA_QA_FILE as b on a.seq = b.QA_SEQ
     left join TBL_NIA_REPLY as c on a.seq = c.QA_SEQ
-    where a.seq = "${seq}"
+    where a.SEQ = ${seq}
     `)
+
+    console.log("디테일"+details)
     
     
     let passwordDB = details[0].QA_PASSWORD.toString()
@@ -157,10 +159,10 @@ router.post("/question/server/post",upload.array('file'), async (req, res) => {
         let seq = ''
         let sql = `insert into TBL_NIA_QA
                     (QA_CATEGORY,QA_LOCATION,QA_COMPANY,QA_NAME,QA_EMAIL,QA_TEL,QA_TITLE,
-                        QA_CONTENTS,QA_PASSWORD,QA_FILE_EXIST,QA_COMPLETE)
-                    values(?,?,?,?,?,?,?,?,?,?,?)`
+                        QA_CONTENTS,QA_PASSWORD,QA_FILE_EXIST)
+                    values(?,?,?,?,?,?,?,?,?,?)`
 
-        const list = [category, location, company, name, email, tel, title, contents, passwordCode, "N", "N"]
+        const list = [category, location, company, name, email, tel, title, contents, passwordCode, "N"]
 
         // const [a, b] = await DB.query(sql,list, (err, result,field) => {
         //     console.log(err)
