@@ -13,7 +13,7 @@
       <form>
         비밀번호
         <input class="password" type="password" v-model="password" />
-        <button class="confirm" @click="listcheck()">확인</button>
+        <button class="confirm" @click.prevent="listcheck()">확인</button>
       </form>
     </div>
     <router-link to="/"><button class="return">돌아가기</button></router-link>
@@ -44,7 +44,7 @@ export default {
           name:`Search`,  
           params: {
             seq: this.seq,
-            password: this.password
+            userPassword: this.password
           }
         })
       })
@@ -52,7 +52,7 @@ export default {
         //error 발생 시 알람창 생성 후 초기화
         alert('비밀번호를 다시 입력하세요')
         // router.go()
-        consloe.log(e)
+        console.log(e)
       })
     }
   }

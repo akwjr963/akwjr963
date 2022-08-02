@@ -7,7 +7,7 @@
       <div class="MainMemo">내 문의내역</div>
     </div>
     <div class="table-space">
-      <table class="list-table" v-for="data in list" :key="data">
+      <table class="list-table" v-for="data in listArray" :key="data">
         <colgroup>
           <col width="10%" />
           <col width="*" />
@@ -16,7 +16,7 @@
         </colgroup>
         <tr>
           <td class="table-header">등록일</td>
-          <td>{{data.QA_REG_DATE.slice(0,10)}}</td>
+          <td>{{data.QA_REG_DATE.slice(0,9)}}</td>
           <td class="table-header">처리상태</td>
           <td>답변 대기중</td>
         </tr>
@@ -87,7 +87,7 @@ export default {
     //seq, password created
     console.log(this.$route.params)
     this.ListSeq = this.$route.params.seq;
-    this.password = this.$route.params.password
+    this.password = this.$route.params.userPassword
     this.GetClientQuestion();
   },
   methods: {
