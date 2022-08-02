@@ -22,7 +22,7 @@
         <router-link to="complain">
           <p>장애 신고</p>
         </router-link>
-        <router-link to="secret">
+        <router-link to="/list">
           <p>조회하기</p>
         </router-link>
         <router-link to="question">

@@ -7,7 +7,7 @@
       <div class="MainMemo">내 문의내역</div>
     </div>
     <div class="table-space">
-      <table class="list-table">
+      <table class="list-table" v-for="data in list" :key="data">
         <colgroup>
           <col width="10%" />
           <col width="*" />
@@ -16,13 +16,13 @@
         </colgroup>
         <tr>
           <td class="table-header">등록일</td>
-          <td>2021.07.12</td>
+          <td>{{data.QA_REG_DATE.slice(0,10)}}</td>
           <td class="table-header">처리상태</td>
           <td>답변 대기중</td>
         </tr>
         <tr>
           <td class="table-header">이름</td>
-          <td>홍길동</td>
+          <td>{{data.QA_NAME}}</td>
           <td></td>
           <td></td>
         </tr>
@@ -30,27 +30,24 @@
           <td class="table-header">AP 검색</td>
           <td>부산시 강서구 강서구청1</td>
           <td class="table-header">소속</td>
-          <td>어디소속</td>
+          <td>{{data.QA_CATEGORY}}</td>
         </tr>
         <tr>
           <td class="table-header">연락처</td>
-          <td>010-1234-5678</td>
+          <td>{{data.QA_TEL}}</td>
           <td class="table-header">이메일</td>
-          <td>abcd@naver.com</td>
+          <td>{{data.QA_EMAIL}}</td>
         </tr>
         <tr>
           <td class="table-header">제목</td>
-          <td>NIA 철거이전 문의 드립니다.</td>
+          <td>{{data.QA_TITLE}}</td>
           <td></td>
           <td></td>
         </tr>
         <tr>
           <td class="table-header">내용</td>
           <td colspan="2">
-            NIA 철거이전 문의 내용입니다.NIA 철거이전 문의 내용입니다. NIA
-            철거이전 문의 내용입니다.NIA 철거이전 문의 내용입니다. NIA 철거이전
-            문의 내용입니다.NIA 철거이전 문의 내용입니다.NIA 철거이전 문의
-            내용입니다.
+            {{data.QA_CONTENTS}}
           </td>
           <td></td>
         </tr>
@@ -78,18 +75,33 @@
   </div>
 </template>
 <script>
-import Footer from "../components/Footer.vue";
+import * as api from'@/api/api'
 export default {
   name: "app",
   data() {
     return {
-      
+      listArray: [],
     }
   },
   created() {
-    
+    //seq, password created
+    this.ListSeq = this.$route.params.seq;
+    this.password = this.$route.params.password
+    this.GetClientQuestion();
   },
   methods: {
+    GetClientQuestion(){
+      api.GetClientQuestion(this.ListSeq, this.password).then((res) => {
+        this.listArray = res.data.result;
+        let list = this.listArray;
+        console.log(list)
+      })
+      .catch((e) => {
+        console.log(e)
+        alert('잘못된 접근입니다.')
+        history.back();
+      })
+    }
     
   },
 };

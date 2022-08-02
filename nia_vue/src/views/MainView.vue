@@ -14,7 +14,7 @@
       </span>
       <nav>
         <div class="buttonbox">
-          <router-link to="/secret">
+          <router-link to="/list">
             <button>조회하기</button>
           </router-link>
           <router-link to="/question">

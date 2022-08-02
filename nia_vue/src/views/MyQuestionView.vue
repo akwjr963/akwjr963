@@ -36,22 +36,12 @@
       <span class="text-header">연락처</span>
       <input type="text" v-model="tel"/>
       <span class="text-header">파일첨부</span>
-      <div v-if="!file">
-        <div :class="['dropZone',dragging ? 'dropZone-over' : '']" @dragenter="dragging = true" @gragleave="dragging = false">
-          <div class="dropZone-info" @drag="onChange">
-          <span class="dropZone-title">파일을 드래그하여 첨부하실 수 있습니다.</span>
-          </div>
-          <input type="file" @change="onChange" />
-        </div>
-      </div>
-      <div v-else class="dropZone-uploaded">
-        <div class="dropZone-uploaded-info">
-        <span class="dropZone-title">Uploaded</span>
-        <button type="button" class="delete-file" @click="removeFile">Remove File</button>
-    </div>
-  </div>
       <span class="add-file">
-        <button class="addfile-button">파일첨부</button>
+        <button id="file-add-button" @click.prevent="ButtonClickMethod">파일첨부</button>
+        <input type="file" style="display:none"
+        ref="fileadd"
+        @change="datainputmethod"
+        multiple>
       </span>
       <span class="text-header">제목</span>
       <input type="text" v-model="title"/>
@@ -70,15 +60,12 @@
   </div>
 </template>
 <script>
-import http from '@/api/http'
-
-
-
+import * as api from'@/api/api'
 export default {
-
   name: "app",
   data(){
     return {
+      file:[],
       options: [
         {v:"none", t:"시도 선택"},
         {v:"se", t:"서울"},
@@ -143,6 +130,7 @@ export default {
       contents: '',
       fileEX: '',
       complete: '',
+      file:'',
     }
   },
   methods:{
@@ -167,15 +155,23 @@ export default {
           'complete': this.complete
         }
         console.log(formData)
-
-        http.post('client/question/server/post',formData)
+        api.PostQuestionList(formData)
         .then(res => console.log(res))
+          location.reload()
         .catch(error => console.log(error))
+      },
+      ButtonClickMethod(){
+        this.$refs.fileadd.click();
+      },
+      datainputmethod(event){
+        let files = event.target.files
+        if(!files) return;
+        ([...files]).forEach(f => {
+            this.files.push(f)
+        })
       }
-      
     },
     created(){},
-    
 };
 </script>
 <style scoped>
@@ -288,40 +284,5 @@ select {
   color: #ffffff;
   font-size: 15px;
 }
-.dropZone{
-  width: 800px;
-  height: 100px;
-  position: relative;
-  border: 1px solid lightgray;
-  border-radius: 4px;
-}
-.dropZone:hover .dropZone-title{
-  color:#4d8fe9;
-}
-.dropZone-info{
-  color: #A8A8A8;
-  position: absolute;
-  top: 50%;
-  width: 100%;
-  transform: translate(0, -50%);
-  text-align: center;
-}
-.dropZone input{
-  position: absolute;
-  cursor: pointer;
-  top: 0px;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0;
-}
-.dropZone-uploaded{
-  width: 800px;
-  height: 100px;
-  position: relative;
-  border: 1px solid lightgray;
-  border-radius: 4px;
-}
+
 </style>

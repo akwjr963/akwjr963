@@ -34,9 +34,11 @@
                 {{data.SEQ}}
             </td>
             <td>
-                <router-link to="search">
+                <button class="changeroute"
+                @click="routeView(`${data.SEQ}`)"
+                >
                 {{data.QA_TITLE}}
-                </router-link>
+                </button>
             </td>
             <td v-if="data.QA_FILE_EXIST === 'Y'">
                 <font-awesome-icon icon="fa-solid fa-copy" />
@@ -57,6 +59,7 @@
 </template>
 <script>
 import http from '@/api/http'
+import router from '@/router';
 
 export default{
   name:"app",
@@ -77,7 +80,10 @@ export default{
         });
   },
   methods: {
-    
+    routeView(seq){
+        console.log(seq)
+        router.push(`secret/${seq}`)
+    }
   },
 }
 </script>
@@ -149,4 +155,10 @@ a{
     text-decoration: none;
     color: #2c3e50;
 }
+.changeroute{
+    border:0;
+    outline: 0;
+    background-color:transparent;
+}
+
 </style>
