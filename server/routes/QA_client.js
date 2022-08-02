@@ -113,14 +113,15 @@ router.post("/question/:seq", async (req, res) => {
     const  { seq }  = req.params
     console.log("seq: "+ seq)
     const { userPassword } = req.body
+    console.log(userPassword)
+    const [details] = await DB.query(`
+                                        select *, a.SEQ as SEQ from TBL_NIA_QA as a 
+                                        left join TBL_NIA_QA_FILE as b on a.seq = b.QA_SEQ
+                                        left join TBL_NIA_REPLY as c on a.seq = c.QA_SEQ
+                                        where a.seq = ${seq}
+                                        `)
 
-    const [details] = await DB.query(`select * 
-    from TBL_NIA_QA as a left join TBL_NIA_QA_FILE as b on a.seq = b.QA_SEQ
-    left join TBL_NIA_REPLY as c on a.seq = c.QA_SEQ
-    where a.SEQ = ${seq}
-    `)
-
-    console.log("디테일"+details)
+    console.log("디테일"+ JSON.stringify(details))
     
     
     let passwordDB = details[0].QA_PASSWORD.toString()

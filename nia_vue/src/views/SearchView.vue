@@ -7,7 +7,7 @@
       <div class="MainMemo">내 문의내역</div>
     </div>
     <div class="table-space">
-      <table class="list-table" v-for="data in list" :key="data">
+      <table class="list-table" v-for="data in listArray" :key="data">
         <colgroup>
           <col width="10%" />
           <col width="*" />
@@ -87,13 +87,13 @@ export default {
     //seq, password created
     console.log(this.$route.params)
     this.ListSeq = this.$route.params.seq;
-    this.password = this.$route.params.password
+    this.password = this.$route.params.userPassword
     this.GetClientQuestion();
   },
   methods: {
     GetClientQuestion(){
       api.GetClientQuestion(this.ListSeq, this.password).then((res) => {
-        this.listArray = res.data.all;
+        this.listArray = res.data.result;
         let list = this.listArray;
         console.log(list)
       })

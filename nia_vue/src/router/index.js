@@ -44,6 +44,7 @@ const routes = [
   {
     path: "/search/:seq",
     name: "Search",
+    props: true,
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/SearchView.vue"),
   },

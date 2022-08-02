@@ -18,10 +18,11 @@ export async function PostQuestionList(formData){
 };
 
 
-export async function GetClientQuestion(seq, password){
+export async function GetClientQuestion(seq, userPassword){
     try{
-        const params = {seq, password}
+        const params = {seq, userPassword}
         console.log(params)
+        console.log(`client/question/${seq}`)
         return http.post(`client/question/${seq}`, params);
     }
     catch(err){

@@ -13,7 +13,7 @@
       <form>
         비밀번호
         <input class="password" type="password" v-model="password" />
-        <button class="confirm" @click="listcheck()">확인</button>
+        <button class="confirm" @click.prevent="listcheck()">확인</button>
       </form>
     </div>
     <router-link to="/"><button class="return">돌아가기</button></router-link>
@@ -41,10 +41,10 @@ export default {
         console.log(res)
         //search page 이동할때 parameter 전달
         router.push({
-          name:`Search`,  
+          name: "Search",
           params: {
             seq: this.seq,
-            password: this.password
+            userPassword: this.password
           }
         })
       })
