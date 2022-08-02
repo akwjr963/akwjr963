@@ -91,17 +91,18 @@ router.delete("/question/:seq/delete", async (req,res) => {
        success: "success delete!"
     })
 })
-//관리자 문의 삭제 복구
-router.put("/question/:seq/put", async (req,res) => {
-    const { seq } = req.params
-    await DB.query(`update TBL_NIA_QA
-            set QA_DEL_YN = 'N'
-            where SEQ = ${seq}`)
 
-    res.status(200).json({
-       success: "success put!"
-    })
-})
+// //관리자 문의 삭제 복구 -- 필요없을 것 같음 -> 기능 삭제
+// router.put("/question/:seq/put", async (req,res) => {
+//     const { seq } = req.params
+//     await DB.query(`update TBL_NIA_QA
+//             set QA_DEL_YN = 'N'
+//             where SEQ = ${seq}`)
+
+//     res.status(200).json({
+//        success: "success put!"
+//     })
+// })
 
 
 

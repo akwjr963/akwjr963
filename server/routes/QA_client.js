@@ -44,7 +44,7 @@ const upload = multer({
             done(null, 'server/assets/attach_qa_ap/'); // uploads라는 폴더 안에 저장
         },
         filename(req, file, done) { // 파일명을 어떤 이름으로 올릴지
-            done(null, Date.now() + "--" + file.originalname); // 파일이름 + 날짜 + 확장자 이름으로 저장
+            done(null, Date.now() + "--" + iconv.decode(file.originalname,"utf-8")); // 파일이름 + 날짜 + 확장자 이름으로 저장
         }
     }),
     //limits: { fileSize: 5 * 1024 * 1024 } // 5메가로 용량 제한
@@ -175,16 +175,11 @@ router.post("/question/server/post",upload.array('file'), async (req, res) => {
             let sql_file = `insert into TBL_NIA_QA_FILE
             values(?,?,?,?)`
 
-            // para = [{originalname:"heelo",destination:"server/routererererere"}, //임시객체배열 (req.files)
-            // {originalname:"ㅎㅁㅎㄴㅇㄻ",destination:"server/aklsdmw"},
-            // {originalname:"뱅뱅",destination:"server/kkfdsaf"}]
+
             para = req.files
-            console.log(req.files)
-            var hel = iconv.decode(para[0].originalname,"utf-8")
-            console.log(hel.toString())
-            //var fi = fs.readFileSync(req.files)
-            //console.log(fi)
-            //console.log(para[0].originalname)
+            console.log("파일이름: "+req.files[0].filename)
+            //var hel = iconv.decode(para[0].originalname,"utf-8")
+    
             for (i=0;i<para.length;i++){
              const list_file = [null,seq,iconv.decode(para[i].originalname,"utf-8"),para[i].destination]
              await DB.query(sql_file,list_file)
@@ -208,43 +203,97 @@ router.post("/question/server/post",upload.array('file'), async (req, res) => {
 })
 //문의 수정하기
 // ** seq 사용 query로
-router.put("/question/update/:seq", async (req, res) => {
+router.put("/question/update/:seq",upload.array("file"), async (req, res) => {
     const { seq } = req.params
     const data = req.body
-    if (true) { //req.files != null
     const [existData] = await DB.query(`select *
-                                         from TBL_NIA_QA as a left join TBL_NIA_QA_FILE as b
-                                         on a.seq = b.qa_seq
-                                         where a.seq = '${seq}'`)
+    from TBL_NIA_QA as a left join TBL_NIA_QA_FILE as b
+    on a.seq = b.qa_seq
+    where a.seq = '${seq}' `)
     
     const sql = `update TBL_NIA_QA
                 set QA_LOCATION = ?, QA_COMPANY = ?, QA_NAME = ?, QA_EMAIL = ?, QA_TEL = ?, QA_TITLE = ?, QA_CONTENTS = ?
                 where seq = '${seq}' `
 
     const list_update = [data.location, data.company, data.name, data.email, data.tel, data.title, data.contents]
-    await DB.query(sql,list_update)
-
-    console.log(list_update)
-    if (data.password == existData.password) {
-        
-    }
-    //console.log(existData)
-
-    res.status(201).json({
-        success: "update success yes file"
-    })
-    }else {
-
+    await DB.query(sql, list_update)
+    
+    var f = req.files  
+    console.log(f)   
+    if (existData[0].QA_FILE_EXIST == 'N') { //수정전 게시글의 첨부파일이 없던 경우
+        if (f == null) {
         res.status(201).json({
-            success: "update success no file"
+            success: " update success no file "
         })
     }
+        else { //게시글에 첨부파일을 추가
+            const s = ` update TBL_NIA_QA set QA_FILE_EXIST = 'Y' where seq = '${seq}' `
+            //const sd = `delete from TBL_NIA_QA_FILE where QA_SEQ = '${seq}' `
+            await DB.query(s)
+       
+            //await DB.query(sd)
+            
+            const update_sql = `insert into TBL_NIA_QA_FILE
+            values(?, ?, ?, ?)`
+
+            for (i=0;i<f.length;i++){
+
+                const list_file = [null,seq,iconv.decode(f[i].originalname,"utf-8"),f[i].destination]
+                await DB.query(update_sql,list_file)
+
+               }
+
+            res.status(201).json({
+                success: "update success no file to yes file"
+            })
+        }
+    }
+    else { //수정전 게시글의 첨부파일이 존재한 경우
+    
+        if (f == null) { //게시글의 첨부파일을 삭제한 경우
+            const s = `update TBL_NIA_QA set QA_FILE_EXIST = 'N' where seq = '${seq}' `
+            const sd = `delete from TBL_NIA_QA_FILE where QA_SEQ = '${seq}' `
+            await DB.query(s)
+            await DB.query(sd)
+            res.status(200).json({
+                success: "update yes file to no file"
+            })
+        }
+        else {
+
+        const update_sql = `insert into TBL_NIA_QA_FILE
+                            values(?, ?, ?, ?)`     
+
+        for(i=0;i<existData.length;i++){
+            const delete_sql = `delete from TBL_NIA_QA_FILE
+                            where QA_SEQ = '${seq}' and  QA_FILE_NAME = "${existData[i].QA_FILE_NAME}"`
+            await DB.query(delete_sql) 
+            // await fs.unlink(`./server/assets/attach_qa_ap/${req.files[i].filename}` ,(err) => {
+            //     console.log(err)
+            // })
+            // console.log(req.files[i].filename)
+        }
+
+        for (i=0;i<f.length;i++){
+            const list_file = [null,seq,iconv.decode(f[i].originalname,"utf-8"),f[i].destination]
+            await DB.query(update_sql,list_file)
+           }
+        
+    
+        res.status(201).json({
+            success: "update success yes file "
+        })                      
+    }
+    }
+
+   
+    
 })
 //문의 삭제하기
 router.delete("/question/update/:seq/delete", async (req, res) => {
     const { seq } = req.params
     console.log("client delete page")
-    let sql = `update TBL_NIA_QAd\
+    let sql = `update TBL_NIA_QA
                 set QA_DEL_YN = 'Y'
                 where seq = '${seq}' `
     await DB.query(sql)
