@@ -5,7 +5,7 @@
             <!--accordion-->
             <li v-for="(item,idx) in accordion" :key="idx">
             <!--화살표-->
-            <font-awesome-icon icon="fa-solid fa-chevron-down" 
+            <font-awesome-icon icon="fa-solid fa-chevron-left" 
             class="icon"
             :class="{'open':item.open}"/>
             <!--main accordion-->
@@ -87,7 +87,7 @@ li{
     transition: transform 1s ease;
 }
 .open{
-    transform: rotateZ(90deg);
+    transform: rotateZ(-90deg);
 }
 .ques{
     color:blue;
