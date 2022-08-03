@@ -43,6 +43,8 @@ export default {
 }
 .MainHeader {
   height: 50px;
+  margin-top:20px;
+  margin-bottom:20px;
 }
 .MainMemo {
   display: flex;
@@ -57,7 +59,8 @@ export default {
   display: flex;
   max-width: 1200px;
   margin: 20px auto;
-  line-height: 24px;
+  line-height: 20px;
+  margin-bottom:100px;
 }
 a {
   display: block;

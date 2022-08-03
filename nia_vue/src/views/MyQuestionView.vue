@@ -208,8 +208,8 @@ export default {
 }
 .MainHeader {
   height: 50px;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin-top: 30px;
+  margin-bottom: 50px;
 }
 .MainMemo {
   display: flex;

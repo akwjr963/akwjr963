@@ -146,5 +146,6 @@ ol {
   display: flex;
   flex-direction: column;
   margin: auto;
+  margin-bottom:50px;
 }
 </style>
