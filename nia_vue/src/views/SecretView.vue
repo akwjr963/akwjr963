@@ -74,12 +74,14 @@ export default {
   align-items: center;
   justify-content: center;
   color: white;
-  height: 120px;
-  font-size: 20px;
+  height: 250px;
+  font-size: 30px;
   font-weight: bolder;
 }
 .MainHeader {
   height: 50px;
+  margin-top:30px;
+  margin-bottom:80px;
 }
 .MainMemo {
   display: flex;
@@ -99,6 +101,7 @@ export default {
   margin: auto;
   border-top: 3px solid black;
   border-bottom: 1px solid lightgrey;
+  margin-bottom:20px;
 }
 h3 {
   font-size: 16px;
@@ -118,6 +121,7 @@ form {
   height: 25px;
   border: 1px solid lightgrey;
   border-radius: 4px 0px 0px 4px;
+  margin-left: 20px;
 }
 .confirm {
   width: 60px;

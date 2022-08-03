@@ -190,6 +190,7 @@ ul {
   list-style-type: none;
   padding-bottom: 150px;
   margin-top: -6.5em;
+  margin-bottom:40px;
 }
 li {
   display: inline-flex;

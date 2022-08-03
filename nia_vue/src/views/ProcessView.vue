@@ -105,8 +105,8 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 120px;
-  font-size: 25px;
+  height: 250px;
+  font-size: 30px;
   font-weight: bolder;
 }
 .MainHeader {

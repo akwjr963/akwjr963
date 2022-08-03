@@ -16,8 +16,6 @@ import Accordion from "../components/Accordion.vue";
 
 export default {
     name: "app",
-    data() {
-    },
     components: { 
       Accordion,
      }
@@ -39,7 +37,7 @@ export default {
   align-items: center;
   justify-content: center;
   color: white;
-  height: 120px;
+  height: 250px;
   font-size: 30px;
   font-weight: bolder;
 }

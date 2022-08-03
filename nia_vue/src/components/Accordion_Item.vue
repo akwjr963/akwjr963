@@ -51,7 +51,7 @@ export default {
 li{
     border-bottom:1px solid lightgray;
     text-align: left;
-    line-height: 60px;
+    padding-bottom:10px;
     user-select: none;
     list-style: none;
 }
@@ -61,6 +61,7 @@ a{
     width: inherit;
     height: 40px;
     align-items: center;
+    padding-top:20px;
 }
 .question-list{
     list-style-type: none;
@@ -76,5 +77,6 @@ ul{
     align-items: center;
     align-content: center;
     vertical-align: center;
+    line-height: 60px;
 }
 </style>
