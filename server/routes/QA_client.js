@@ -308,10 +308,41 @@ router.delete("/question/update/:seq/delete", async (req, res) => {
     })
 })
 
+// 
+
 //신청서 다운로드
 router.get("/download", async (req, res) => {  
     res.download('./server/download_File/ap_철거이전.jpg')
 })
 //유저 첨부파일 다운로드
+
+// 주소 받아오기
+router.get("/address", async(req, res) => {
+    if (req.query.location1) {
+        
+        const location = req.query.location1
+        let [dbResult] = await DB.query(`SELECT ap_location2 as location FROM ap_location
+                                         WHERE ap_location1 = '${location}'
+                                         GROUP BY ap_location2`)
+        let result = []                                         
+        dbResult.map(i => result.push(i.location))
+        res.status(201).json({result})
+
+    } else if (req.query.location2) {
+        const location = req.query.location2.split('/')
+        let where = ''
+        location[0] == "전체" ? where = `ap_location1='${location[1]}'` : where = `ap_location2='${location[0]}'` 
+        const [dbResult] = await DB.query(`SELECT CONCAT(ap_location3,' ',ap_location4) AS location FROM ap_location
+                                         WHERE ${where}
+                                         GROUP BY ap_location4
+                                         ORDER BY ap_location3 ASC, ap_location4`)
+        let result = []                                         
+        dbResult.map(i => result.push(i.location))
+        res.status(201).json({result})                                         
+
+    } else (
+        res.status(400).json({result:400})
+    )
+})
 
 module.exports = router
