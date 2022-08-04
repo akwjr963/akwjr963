@@ -153,32 +153,24 @@ router.post("/question/server/post",upload.array('file'), async (req, res) => {
     const { category, password, location, company, email, name, tel, fileEx , fileName, title, contents, replyEx} = req.body
     
     let passwordCode = cipherCode(password)
-    console.log(passwordCode)
+
         let seq = ''
         let sql = `insert into TBL_NIA_QA
                     (QA_CATEGORY,QA_LOCATION,QA_COMPANY,QA_NAME,QA_EMAIL,QA_TEL,QA_TITLE,
                         QA_CONTENTS,QA_PASSWORD,QA_FILE_EXIST)
                     values(?,?,?,?,?,?,?,?,?,?)`
 
-        const list = [category, location, company, name, email, tel, title, contents, passwordCode, "N"]
-
-        // const [a, b] = await DB.query(sql,list, (err, result,field) => {
-        //     console.log(err)
-        //     console.log(result)
-        //     seq = result.insertId
-        //     console.log(seq)
-        //     console.log("field: " + field)
-        // })
-
-        await DB.query(sql,list).then(([rows,field]) => {
-            seq = rows.insertId
-            console.log(seq)
-        }) 
-        
+        console.log(req.files)
         
         //첨부파일 O
-        if (req.files) {
-            console.log(req.files)
+        if (req.files.length != 0) {
+
+            const list = [category, location, company, name, email, tel, title, contents, passwordCode, "Y"]
+            
+            await DB.query(sql,list).then(([rows,field]) => {
+                seq = rows.insertId
+            }) 
+
             let sql_file = `insert into TBL_NIA_QA_FILE
             values(?,?,?,?)`
 
@@ -202,6 +194,12 @@ router.post("/question/server/post",upload.array('file'), async (req, res) => {
             
         // 첨부파일 X    
         }else { 
+            const list = [category, location, company, name, email, tel, title, contents, passwordCode, "N"]
+            
+            await DB.query(sql,list).then(([rows,field]) => {
+                seq = rows.insertId
+            }) 
+
             res.status(200).json({
                 newPost: "Success post! and no file"
             })
