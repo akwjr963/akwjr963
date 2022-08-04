@@ -11,7 +11,7 @@ const swaggerUi = require('swagger-ui-express')
 const YAML = require('yamljs')
 const swaggerDocument = YAML.load('./server/swagger/output.yaml')
 
-app.use(express.static("./server/assets/"))
+app.use(express.static("./assets/"))
 const bodyParser = require("body-parser")
 
 app.use(cors())
