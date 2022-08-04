@@ -18,7 +18,7 @@
         <div class="v-line"></div>
         <ul class="UseTime">
           <li>평일 AM 09:00 - PM 06:00</li>
-          <li>점심 PM12:00 - PM 01:00</li>
+          <li>점심 PM 12:00 - PM 01:00</li>
           <li class="RedLine">(토, 일요일 및 공휴일은 휴무입니다)</li>
         </ul>
       </div>
@@ -58,7 +58,7 @@ export default {
   align-items: center;
   justify-content: center;
   color: white;
-  height: 120px;
+  height: 250px;
   font-size: 30px;
   font-weight: bolder;
 }
@@ -81,7 +81,7 @@ export default {
 .MainText {
   display: flex;
   width: 700px;
-  height: 200px;
+  height: 150px;
   border: 1px solid lightgrey;
   border-radius: 8px;
   align-items: center;
@@ -117,9 +117,9 @@ li {
 }
 .v-line {
   border-left: 1px solid lightgrey;
-  height: 160px;
+  height: 130px;
   align-items: center;
-  margin-top: 10px;
+  margin-top: 5px;
 }
 ol {
   display: flex;
@@ -139,11 +139,13 @@ ol {
   margin: auto;
   font-size: 13px;
   font-weight: bolder;
+  margin-bottom:10px;
 }
 .BottomList {
   width: 700px;
   display: flex;
   flex-direction: column;
   margin: auto;
+  margin-bottom:50px;
 }
 </style>

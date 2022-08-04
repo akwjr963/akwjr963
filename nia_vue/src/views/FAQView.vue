@@ -16,8 +16,6 @@ import Accordion from "../components/Accordion.vue";
 
 export default {
     name: "app",
-    data() {
-    },
     components: { 
       Accordion,
      }
@@ -39,12 +37,14 @@ export default {
   align-items: center;
   justify-content: center;
   color: white;
-  height: 120px;
+  height: 250px;
   font-size: 30px;
   font-weight: bolder;
 }
 .MainHeader {
   height: 50px;
+  margin-top:20px;
+  margin-bottom:20px;
 }
 .MainMemo {
   display: flex;
@@ -59,7 +59,8 @@ export default {
   display: flex;
   max-width: 1200px;
   margin: 20px auto;
-  line-height: 24px;
+  line-height: 20px;
+  margin-bottom:100px;
 }
 a {
   display: block;

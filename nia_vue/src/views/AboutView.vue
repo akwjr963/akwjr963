@@ -52,14 +52,15 @@ export default {
   align-items: center;
   justify-content: center;
   color: white;
-  height: 120px;
-  font-size: 20px;
+  height: 250px;
+  font-size: 30px;
   font-weight: bolder;
 }
 .MainHeader {
   height: 50px;
   font-size: 24px;
   margin-top:30px;
+  margin-bottom: 50px;
 }
 .MainMemo {
   display: flex;
@@ -93,6 +94,7 @@ button {
   background-size: 40px;
   background-repeat: no-repeat;
   border: 1px solid lightgray;
+  background-color: white;
 }
 .KT {
   width: 150px;
@@ -102,6 +104,7 @@ button {
   background-size: 170px;
   background-repeat: no-repeat;
   border: 1px solid lightgray;
+  background-color: white;
 }
 .Text {
   position: relative;
@@ -131,7 +134,7 @@ ul {
   border: none;
   border-radius: 8px;
   margin-right: 30px;
-  margin-bottom: 30px;
+  margin-bottom: 70px;
 }
 .Detail {
   width: 220px;

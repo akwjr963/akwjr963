@@ -104,12 +104,14 @@ export default{
   align-items: center;
   justify-content: center;
   color: white;
-  height: 120px;
-  font-size: 20px;
+  height: 250px;
+  font-size: 30px;
   font-weight: bolder;
 }
 .MainHeader{
   height: 50px;
+  margin-top:30px;
+  margin-bottom:50px;
 }
 .MainMemo{
   display: flex;

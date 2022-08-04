@@ -202,14 +202,14 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 120px;
-  font-size: 20px;
+  height: 250px;
+  font-size: 30px;
   font-weight: bolder;
 }
 .MainHeader {
   height: 50px;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin-top: 30px;
+  margin-bottom: 50px;
 }
 .MainMemo {
   display: flex;
@@ -296,6 +296,10 @@ select {
   background-color: #4d8fe9;
   color: #ffffff;
   font-size: 15px;
+}
+#file-add-button{
+  background-color: #4d8fe9;
+  color: #ffffff;
 }
 
 </style>

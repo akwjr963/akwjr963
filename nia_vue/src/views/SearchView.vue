@@ -53,7 +53,7 @@
         </tr>
         <tr class="table-bottom">
           <td class="table-header">첨부파일</td>
-          <td class="flex">{{data.QA_FILE}}</td>
+          <td class="flex">{{data.QA_FILE_NAME}}</td>
           <td></td>
           <td></td>
         </tr>
@@ -129,8 +129,8 @@ export default {
   align-items: center;
   justify-content: center;
   color: white;
-  height: 120px;
-  font-size: 20px;
+  height: 250px;
+  font-size: 30px;
   font-weight: bolder;
 }
 .MainHeader {

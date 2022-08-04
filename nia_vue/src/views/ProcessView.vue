@@ -105,14 +105,14 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 120px;
-  font-size: 25px;
+  height: 250px;
+  font-size: 30px;
   font-weight: bolder;
 }
 .MainHeader {
   height: 50px;
-  margin-top: 20px;
-  margin-bottom: 20px;
+  margin-top: 30px;
+  margin-bottom: 50px;
 }
 .MainMemo {
   display: flex;
