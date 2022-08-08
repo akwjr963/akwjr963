@@ -16,14 +16,27 @@
       <div class="main-bar"></div>
       <span class="text-header">AP 검색</span>
       <!--시도 선택, 시군구 선택-->
-      <!--backend와 연동예정, vue만으로는 v-for, v-if로 구문제어-->
+      <!--backend와 연동예정-->
       <span class="select-space">
-        <select class="city-list" @click="ItemChange()">
-          <option key="i" :value="d.v" v-for="(d,i) in options">{{d.t}}
+        <select class="city-list"
+        @change="ChangeOffice()"
+        v-model="location">
+          <option v-for="(data,index) in items" :key="index"
+          >{{data.value}}
           </option>
         </select>
-        <select class="office-list">
-          <option key="i" :value="d.v" v-for="(d,i) in seoul">{{d.t}}
+        <select class="office-list"
+        @change="ChangePlace()"
+        v-model="location"><!--v-model-->
+          <!--v-for 시도 선택에서 받은 office를 for문으로 다시 출력-->
+          <option v-for="(data,idx) in offices" :key="idx">
+            {{data}}
+          </option>
+        </select>
+        <select class="place-list"
+        >
+          <option v-for="(data, i) in places" :key="i">
+            {{data}}
           </option>
         </select>
       </span>
@@ -67,60 +80,30 @@ export default {
   name: "app",
   data(){
     return {
+      office:'',
+      place:'',
       file:[],
-      options: [
-        {v:"none", t:"시도 선택"},
-        {v:"se", t:"서울"},
-        {v:"bu", t:"부산"},
-        {v:"in", t:"인천"},
-      ],
-      seoul:[
-        {v:"none", t:"시군구 선택"},
-        {v:"yongsan", t:"용산구"},
-        {v:"gwanak", t:"관악구"},
-        {v:"guro", t:"구로구"},
-        {v:"seocho", t:"서초구"},
-        {v:"gangseo", t:"강서구"},
-        {v:"yangcheon", t:"양천구"},
-        {v:"geumcheon",t:"금천구"},
-        {v:"dongjak",t:"동작구"},
-        {v:"yeongdeungpo",t:"영등포구"},
-        {v:"mapo",t:"마포구"},
-        {v:"seodaemun",t:"서대문구"},
-        {v:"eunpyeong",t:"은평구"},
-        {v:"jongno",t:"종로구"},
-        {v:"jung",t:"중구"},
-        {v:"gangnam",t:"강남구"},
-        {v:"songpa",t:"송파구"},
-        {v:"gangdong",t:"강동구"},
-        {v:"gwangjin",t:"광진구"},
-        {v:"seongdong",t:"성동구"},
-        {v:"donddaemun",t:"동대문구"},
-        {v:"jungnang",t:"중랑구"},
-        {v:"seongbuk",t:"성북구"},
-        {v:"gangbuk",t:"강북구"},
-        {v:"dobong",t:"도봉구"},
-        {v:"nowon",t:"노원구"}
-      ],
-      busan:[
-        {v:"none", t:"시군구 선택"},
-        {v:"sasang", t:"사상구"},
-        {v:"saha", t:"사하구"},
-        {v:"buk", t:"북구"},
-        {v:"nam", t:"남구"},
-        {v:"dong", t:"동구"},
-        {v:"jung", t:"중구"},
-        {v:"yungdo", t:"영도구"},
-        {v:"gangseo", t:"강서구"},
-        {v:"busanjin", t:"부산진구"},
-        {v:"gijang",t:"기장군"},
-        {v:"suyeong",t:"수영구"},
-        {v:"gumjung", t:"금정구"},
-        {v:"donglae",t:"동래구"},
-        {v:"yeonjae",t:"연제구"},
-        {v:"seo",t:"서구"},
-        {v:"haeundae",t:"해운대구"}
-      ],
+      offices:[],//시군구 선택 배열
+      places:[],//장소선택 배열
+      items: [
+                { location:'시도 선택 ', value: '시도선택' },
+                { location: '강원도', value: '강원도' },
+                { location: '경기도', value: '경기도' },
+                { location: '경상남도', value: '경상남도' },
+                { location: '경상북도', value: '경상북도' },
+                { location: '광주광역시', value: '광주광역시' },
+                { location: '대구광역시', value: '대구광역시' },
+                { location: '대전광역시', value: '대전광역시' },
+                { location: '부산광역시', value: '부산광역시' },
+                { location: '서울특별시', value: '서울특별시' },
+                { location: '세종특별자치시', value: '세종특별자치시' },
+                { location: '울산광역시', value: '울산광역시' },
+                { location: '인천광역시', value: '인천광역시' },
+                { location: '전라남도', value: '전라남도' },
+                { location: '전라북도', value: '전라북도' },
+                { location: '충청남도', value: '충청남도' },
+                { location: '충청북도', value: '충청북도' },
+            ],
       category: '',
       password: '',
       location: '',
@@ -134,25 +117,7 @@ export default {
     }
   },
   methods:{
-      ItemChange(){
-        if(options.v === "se")
-          office = seoul;
-        else if(options.v === "bu")
-          office = busan;
-      },
       onSubmit(){
-        // const formData = {
-        //   'category': this.category,
-        //   'password': this.password,
-        //   'location': this.location,
-        //   'company': this.company,
-        //   'email': this.email,
-        //   'name': this.name,
-        //   'tel': this.tel,
-        //   'title': this.title,
-        //   'contents': this.contents,
-        //   'complete': this.complete
-        // }
         let fData = new FormData();
         this.file.forEach((f) => {
               fData.append('file', f)
@@ -183,8 +148,50 @@ export default {
         ([...files]).forEach(f => {
             this.file.push(f)
         })
-      }
+      },
+      ChangeOffice(){
+      //반복문 사용
+      //시도 선택에 따른 시군구 선택 값 변화
+      let location = this.location;
+      api.GetCityAddress(location)
+      .then((res)=>{
+        
+        let result = res.data.result;
+        this.offices = [];
+        let offices = this.offices;
+        for(let i=0;i<result.length;i++)
+        {
+          offices.push(result[i]); 
+          
+        }
+        
+        console.log(res.data)
+        console.log(offices)
+      })
+      
+      .catch(error => console.log(error))
     },
+     ChangePlace(){
+      let location = this.location;
+      //시군구 선택 값에 따른 각 장소 선택
+      api.GetOfficeAddress(location)
+      .then((res)=>{
+        let result = res.data.result;
+        this.places=[];
+        let places = this.places;
+        
+        for(let j=0;j<result.length;j++)
+        {
+          places.push(result[j]);
+        }
+        console.log(res.data)
+        console.log(places)
+      })
+      .catch(error => console.log(error))
+    }
+    },
+    
+   
 };
 </script>
 <style scoped>

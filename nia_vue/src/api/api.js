@@ -33,4 +33,25 @@ export async function GetClientQuestion(seq, userPassword){
     catch(err){
         return err;
     }
+};
+
+export async function GetCityAddress(location,data){
+    try{
+        console.log(location)
+        console.log('client/address/?location1');
+        return http.get(`client/address/?location1=${location}`,data);
+    }
+    catch(err){
+        return err;
+    }
+};
+export async function GetOfficeAddress(location,data){
+    try{
+        console.log(location)
+        console.log('client/address/?location2');
+        return http.get(`client/address/?location2=${location}`,data);
+    }
+    catch(err){
+        return err;
+    }
 }

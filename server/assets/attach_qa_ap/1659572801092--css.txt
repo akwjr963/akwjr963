@@ -1,0 +1,17 @@
+전체 해상도 사이즈
+
+1920 *
+
+
+button color 
+
+090909  
+
+4d8fe9 
+
+f97272
+
+
+text color 
+
+#ffffff  파일첨부 - drag & drop

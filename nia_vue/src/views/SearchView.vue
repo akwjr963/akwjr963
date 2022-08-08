@@ -28,9 +28,9 @@
         </tr>
         <tr>
           <td class="table-header">AP 검색</td>
-          <td>부산시 강서구 강서구청1</td>
+          <td>{{data.QA_LOCATION}}</td>
           <td class="table-header">소속</td>
-          <td>{{data.QA_CATEGORY}}</td>
+          <td>{{data.QA_COMPANY}}</td>
         </tr>
         <tr>
           <td class="table-header">연락처</td>
