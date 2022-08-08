@@ -177,9 +177,8 @@ export default {
       api.GetOfficeAddress(location)
       .then((res)=>{
         let result = res.data.result;
-        this.places=[];
+        this.places = [];
         let places = this.places;
-        
         for(let j=0;j<result.length;j++)
         {
           places.push(result[j]);
