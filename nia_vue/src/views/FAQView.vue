@@ -13,7 +13,6 @@
 </template>
 <script>
 import Accordion from "../components/Accordion.vue";
-
 export default {
     name: "app",
     components: { 

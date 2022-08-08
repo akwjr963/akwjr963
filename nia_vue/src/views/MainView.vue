@@ -21,12 +21,11 @@
             <button>문의하기</button>
           </router-link>
         </div>
-
+        <!--burgermenu-->
         <div
-          class="burgermenu"
-          :class="{ active: isActive }"
-          @click="isToggleActive"
-        >
+        class="burgermenu"
+        :class="{ active: isActive }"
+        @click="isToggleActive">
           <span class="line"></span>
           <span class="line"></span>
           <span class="line"></span>

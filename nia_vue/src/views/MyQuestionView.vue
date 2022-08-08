@@ -21,8 +21,8 @@
         <select class="city-list"
         @change="ChangeOffice()"
         v-model="location">
-          <option v-for="(data,index) in items" :key="index"
-          >{{data.value}}
+          <option v-for="(data,index) in items" :key="index">
+          {{data.value}}
           </option>
         </select>
         <select class="office-list"
@@ -34,7 +34,7 @@
           </option>
         </select>
         <select class="place-list"
-        >
+        v-model="location">
           <option v-for="(data, i) in places" :key="i">
             {{data}}
           </option>
@@ -133,7 +133,6 @@ export default {
         fData.append('contents', this.contents,)
         fData.append('complete', this.complete)
 
-
         api.PostQuestionList(fData)
         .then(res => console.log(res))
           // location.reload()
@@ -155,20 +154,16 @@ export default {
       let location = this.location;
       api.GetCityAddress(location)
       .then((res)=>{
-        
         let result = res.data.result;
         this.offices = [];
         let offices = this.offices;
         for(let i=0;i<result.length;i++)
-        {
-          offices.push(result[i]); 
-          
-        }
-        
+          {
+            offices.push(result[i]); 
+          }
         console.log(res.data)
         console.log(offices)
       })
-      
       .catch(error => console.log(error))
     },
      ChangePlace(){
@@ -189,8 +184,6 @@ export default {
       .catch(error => console.log(error))
     }
     },
-    
-   
 };
 </script>
 <style scoped>

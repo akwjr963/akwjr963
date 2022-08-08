@@ -1,166 +1,148 @@
 <template>
-<div class="list-space">
-    <div class="TopMain">
-        <div class="TopMemo">
-            문의 조회하기
+    <div class="Wrapper" v-if="!loading">
+        <div class="subtop">
+            <h1>
+                문의 조회하기
+            </h1>
         </div>
+        <section class="main-content">
+            <div class="title">
+                <h4>문의 조회하기</h4>
+            </div>
+            <div class="table-wrapper">
+                <!-- Table, pagination data -->
+                <TableList class="table-box" :list-array="pageArray"  />
+            </div>
+        </section>
     </div>
-    <div class="MainHeader">
-        <div class="MainMemo">
-            문의 조회하기
-        </div>
-    </div>
-    <div class="table-space">
-        <table class="list-table">
-            <caption>
-                총 {{list.length}}건
-            </caption>
-            <colgroup>
-                <col width="6%" />
-                <col width="*" />
-                <col width="10%" />
-                <col width="15%" />
-                <col width="15%" />
-            </colgroup>
-            <tr>
-                <th>번호</th>
-                <th>제목</th>
-                <th>첨부</th>
-                <th>작성자</th>
-                <th>작성일</th>
-            </tr>
-            <tr v-for="data in list" :key="data">
-            <td>
-                {{data.SEQ}}
-            </td>
-            <td>
-                <button class="changeroute"
-                @click="routeView(`${data.SEQ}`)"
-                >
-                {{data.QA_TITLE}}
-                </button>
-            </td>
-            <td v-if="data.QA_FILE_EXIST === 'Y'">
-                <font-awesome-icon icon="fa-solid fa-copy" />
-            </td>
-            <td v-else>
-                
-            </td>
-            <td>
-                {{data.QA_NAME}}
-            </td>
-            <td>
-                {{data.QA_REG_DATE.slice(0,9)}}
-            </td>
-            </tr>
-        </table>
-    </div>
-</div>
 </template>
 <script>
-import http from '@/api/http'
-import router from '@/router';
+import * as api from '@/api/api'
+import TableList from '@/components/TableList.vue'
+export default {
+    name: 'List',
+    components: {
+        TableList,
+    },
+    data() {
+        return {
+            pageArray: [],
+            loading: false,
+        }
+    },
+    computed: {
 
-export default{
-  name:"app",
-   data() {
-    return {
-      list:[]
-    }
-  },
-  created() {
-    http
-        .get("client/question")
-        .then(response=>{
-            console.log(response);
-            this.list = response.data.all;
+    },
+    created () {
+        // list page 뿌리기
+        this.loading = true;
+        api.fetchProjectList().then((res) => {
+            this.pageArray = res.data.result;
+            this.loading = false;
+            let pages = this.pageArray
+            // date 연월일만 출력
+            for( let i = 0; i <= pages.length; i++) {
+                // Cannot read properties of 에러 해결 logic
+                // pages[i]에 데이터가 있는지 확인 후 처리
+                if(pages[i]?.date) {
+                    let days = pages[i].date.substr(0, 9)
+                    pages[i].date = days;
+                }
+            }
+            return pages;
         })
-        .catch(error=>{
-            console.log(error);
-        });
-  },
-  methods: {
-    routeView(seq){
-        console.log(seq)
-        router.push(`secret/${seq}`)
-    }
-  },
+    },
+    methods: {
+        
+    },
 }
 </script>
 <style scoped>
-.list-space{
-    height: 100%;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    flex:1;
-}
-.TopMain{
-  background-image: url("../assets/images/sub_top_bg02.jpg");
-}
-.TopMemo{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  height: 250px;
-  font-size: 30px;
-  font-weight: bolder;
-}
-.MainHeader{
-  height: 50px;
-  margin-top:30px;
-  margin-bottom:50px;
-}
-.MainMemo{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 50px;
-  font-size: 25px;
-  margin: 20px 0;
-  font-weight: bolder;
-}
-caption{
-    padding:10px;
-    caption-side: top;
-    text-align: left;
-}
-.table-space{
-    display: flex;
-    flex-direction: column;
-    width: 1500px;
-    align-items: center;
-    justify-content: center;
-    margin-bottom:50px;
-}
-.list-table{
-    width: 1000px;
-    margin:auto;
-    align-items: center;
-    justify-content: center;
-    border-top: 3px solid black;
-    border-collapse: collapse;
-}
-th,td{
-    height: 40px;
-    padding-top:5px;
-    padding-bottom:5px;
-    border-bottom: 1px solid lightgray;
-}
-span{
-    display: flex;
-    margin:0;
-}
-a{
-    text-decoration: none;
-    color: #2c3e50;
-}
-.changeroute{
-    border:0;
-    outline: 0;
-    background-color:transparent;
-}
-
+    *{ letter-spacing: -1px; }
+    .Wrapper {
+    max-width: 1920px; height: 100vh;
+    }
+    .subtop {
+    width: 100%; height: 360px;
+    text-align: center;
+    display: flex; justify-content: center; align-items: center;
+    background-image: url('../assets/images/sub_top_bg02.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    }
+    .subtop h1 {
+    vertical-align: middle;
+    font-size: 2.9rem;
+    font-weight: 700;
+    color: #fff;
+    position: relative;
+    opacity: 1;
+    letter-spacing: 5px;
+    }
+    .main-content {
+    position: relative;
+    max-width: 1400px; height: auto;
+    margin: 40px auto;
+    padding-bottom: 40px;
+    }
+    
+    .title {
+    margin: 50px 0 80px;
+    text-align: center;
+    }
+    .title h4 {
+    font-size: 2rem;
+    }
+    .table-wrapper {
+    width: 100%;
+    height: 400px;
+    }
+    table {
+    width:100%; 
+    border-collapse:collapse; 
+    border-top: 3px solid #090909;
+    border-bottom: 1px solid#ddd;
+    }
+    .result {
+    display: block;
+    padding-bottom: 20px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    }
+    table thead {
+    background:#fff; 
+    color:#090909;
+    }
+    table tr th {
+    padding:1em; 
+    border-top:1px solid #ddd;
+    }
+    table tr td {
+    padding:1em; 
+    text-align:center; 
+    border-top:1px solid #ddd;
+    }
+    .active {
+    background: #090909 !important;
+    color: #fff !important;
+    }
+    .btn-cover {
+    margin-top: 3.5rem;
+    text-align: center;
+    }
+    .btn-cover .page-btn {
+    width: 2rem;
+    height: 2rem;
+    letter-spacing: 0.5px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    }
+    .btn-cover .page-count {
+    padding: 0.3rem 1rem;
+    font-size: 0.95rem;
+    }
+    .table-box {
+    padding-bottom: 3rem;
+    }
 </style>

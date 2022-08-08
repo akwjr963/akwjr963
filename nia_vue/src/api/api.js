@@ -5,7 +5,16 @@ import http from './http';
  * API REQUEST
  * 
  */
-
+export async function fetchProjectList(){
+    try{
+        console.log('get /client/question');
+        return http.get(`/client/question`)
+    }
+    catch(err)
+    {
+        return err;
+    }
+};
 //list 받아오기
 export async function PostQuestionList(formData){
     try {

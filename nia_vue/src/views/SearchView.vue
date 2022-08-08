@@ -68,9 +68,9 @@
           <td></td>
         </tr>
       </table>
-      <router-link to="/list"
-        ><button class="return">돌아가기</button></router-link
-      >
+      <router-link to="/list">
+        <button class="return">돌아가기</button>
+      </router-link>
     </div>
   </div>
 </template>
