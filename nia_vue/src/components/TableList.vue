@@ -9,13 +9,13 @@
                 <th>작성자</th>
                 <th>작성일</th>
             </tr>
-            <tr v-for="p in paginatedData" :key="p.id">
-                <td>{{ p.num }}</td>
+            <tr v-for="p in paginatedData" :key="p.SEQ">
+                <td>{{ p.SEQ }}</td>
                 <td>
                     <button class="route-button"
-                    @click="fetchViewPage(`${p.seq}`)"
+                    @click="fetchViewPage(`${p.SEQ}`)"
                     >
-                    {{ p.title }}
+                    {{ p.QA_TITLE }}
                     </button>
                 </td>
                 <!-- 첨부파일 유무 확인 -->
@@ -23,11 +23,11 @@
                     <font-awesome-icon 
                     class="fileIcon"
                     icon="fa-solid fa-file-circle-check"
-                    v-if="p.f_exist === 'Y'"
+                    v-if="p.QA_FILE_EXIST === 'Y'"
                     />
                 </td>
-                <td>{{ p.name }}</td>
-                <td>{{ p.date }}</td>
+                <td>{{ p.QA_NAME }}</td>
+                <td>{{ p.QA_REG_DATE }}</td>
             </tr>
         </table>
         <div class="btn-cover">
@@ -73,7 +73,7 @@ export default {
     methods: {
         fetchViewPage(seq) {
             console.log(seq)
-            router.push(`/search/${seq}`)
+            router.push(`/secret/${seq}`)
         },
         nextPage () {
         this.pageNum += 1;

@@ -37,16 +37,17 @@ export default {
         // list page 뿌리기
         this.loading = true;
         api.fetchProjectList().then((res) => {
-            this.pageArray = res.data.result;
+            console.log(res);
+            this.pageArray = res.data.all;
             this.loading = false;
             let pages = this.pageArray
             // date 연월일만 출력
             for( let i = 0; i <= pages.length; i++) {
                 // Cannot read properties of 에러 해결 logic
                 // pages[i]에 데이터가 있는지 확인 후 처리
-                if(pages[i]?.date) {
-                    let days = pages[i].date.substr(0, 9)
-                    pages[i].date = days;
+                if(pages[i]?.QA_REG_DATE) {
+                    let days = pages[i].QA_REG_DATE.substr(0, 9)
+                    pages[i].QA_REG_DATE = days;
                 }
             }
             return pages;

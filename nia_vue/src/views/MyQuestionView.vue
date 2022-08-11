@@ -63,9 +63,6 @@
       <textarea v-model="contents"></textarea>
       <span class="text-header">비밀번호</span>
       <input type="password" v-model="password"/>
-      <span class="text-header">test</span>
-      <input type="text" v-model="complete"/>
-      <div><h4>{{file}}</h4></div>
       <div class="main-bar"></div>
       <span class="bottom-button">
         <button class="cancle-button">취소</button>
